@@ -1,0 +1,11 @@
+{
+    "name": "nodeplayground",
+    "version": "0.0.1",
+    "main": "index.js",
+    "dependencies": {
+        "electron": "^1.7.9",
+        "file-type": "^7.4.0",
+        "node-stream-zip": "^1.4.2",
+        "read-chunk": "^2.1.0"
+    }
+}

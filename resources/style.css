@@ -1,0 +1,25 @@
+img{
+   width:100%;
+}
+
+.page{
+    float: left;
+    width:40%;
+}
+
+#reader{
+    display: inline-block;
+}
+
+#books{
+    list-style: none;
+}
+#books li{
+    float:left;
+}
+
+.book{
+    font-size: 0.9em;
+    width:150px;
+    word-wrap: break-word;
+}
