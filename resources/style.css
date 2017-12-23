@@ -1,5 +1,6 @@
 img{
    width:100%;
+   margin:auto;
 }
 
 .page{
@@ -13,13 +14,23 @@ img{
 
 #books{
     list-style: none;
+    float:center;
 }
 #books li{
     float:left;
+    text-align: center;
 }
 
 .book{
     font-size: 0.9em;
     width:150px;
     word-wrap: break-word;
+}
+
+#explorer{
+    width:25%;
+}
+
+.thumb{
+    width:5em;
 }
