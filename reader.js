@@ -18,6 +18,10 @@ var dummy = false;
 
 var currentBook = {};
 var press = function(book){
+    console.log("Closing old book");
+    closeBook();
+    totalPages = 0;
+    dummy = false;
     console.log("Loading "+bookList[book].name);
     var zip = new StreamZip({
         file:new url.URL("file:///"+bookList[book].directory+bookList[book].name+"."+bookList[book].type),
@@ -173,4 +177,15 @@ var arrangePages = function(){
             }
             break;
     }
+};
+
+var closeBook = function(){
+    //Dispose of all td child elements of the tr called pages
+    var trueTotal = (dummy)?totalPages+1:totalPages;
+    for(var i=1;i<=trueTotal;i=i+1){
+        document.getElementById('pages').removeChild(document.getElementById(i.toString()));
+        console.log("Removing page "+i);
+    }
+    totalPages = 0;
+    dummy = false;
 };
