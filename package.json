@@ -1,8 +1,11 @@
 {
-    "name": "nodeplayground",
+    "name": "comic_thing",
     "version": "0.0.1",
     "main": "index.js",
+    "repository":"https://github.com/LordDeimos/Comic_Thing/",
+    "license":"GNU",
     "dependencies": {
+        "bulma": "^0.6.2",
         "electron": "^1.7.9",
         "file-type": "^7.4.0",
         "node-stream-zip": "^1.4.2",

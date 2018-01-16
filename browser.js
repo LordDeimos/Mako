@@ -16,15 +16,18 @@ var loadDir = function(){
                         directory:"o:/Comics/",
                         type:file.split('.')[file.split('.').length-1]
                     });
-                    var td = document.createElement("li");
+                    var td = document.createElement("div");
+                    var div = document.createElement("div");
                     var title = document.createTextNode(bookList.last().name);
                     var thumb = document.createElement("img");
-                    thumb.setAttribute('class','thumb');
+                    //thumb.setAttribute('class','thumb tile is-child is-vertical');
                     getThumb(bookList.last(),thumb);
-                    td.setAttribute("class","book");
+                    td.setAttribute("class","book tile is-parent is-vertical box");
+                    //div.setAttribute('class','tile is-child is-vertcal');
                     td.setAttribute('onclick',`press(${i})`);
                     td.appendChild(thumb);
-                    td.appendChild(title);
+                    div.appendChild(title);
+                    td.appendChild(div);
                     document.getElementById('books').appendChild(td);
                     i = i+1;
                 }

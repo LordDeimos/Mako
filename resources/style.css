@@ -1,20 +1,16 @@
-img{
-   width:100%;
-   margin:auto;
-}
-
 .page{
     float: left;
     width:40%;
 }
 
 #reader{
-    display: inline-block;
+    margin: 1%;
 }
 
 #books{
     list-style: none;
     float:center;
+    width:25%;
 }
 #books li{
     float:left;
@@ -25,12 +21,41 @@ img{
     font-size: 0.9em;
     width:150px;
     word-wrap: break-word;
+    cursor: pointer;
 }
 
 #explorer{
-    width:25%;
+    margin: 1%;
+    overflow: auto;
+    background-color: #a53886;
 }
 
 .thumb{
     width:5em;
+}
+
+#main{
+    float: left;
+}
+
+#controls{
+    margin: 1%;
+}
+
+.util{
+    padding: 1%;
+}
+
+/*#bookStuff>div{
+    height: 100%;
+}*/
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+body {
+    display: table;
+    margin: 0;
+    background-color: purple;
 }

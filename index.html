@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
         <head>
+                <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css"/>
                 <link rel="stylesheet" type="text/css" href="resources/style.css"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
                 <script src="./reader.js"></script>
                 <script src="./browser.js"></script>
 	</head>
 	<body>
-                <ul>
-                        <li id='explorer'>
-                                <button onclick="loadDir()">Load Books</button>
-                                <ul id='books'>
-                                </ul>
-                        </li>
-                        <li id='reader' style="display: block;">
-                                <button onclick="left()">Left</button>
-                                <button onclick="right()">Right</button>
-                                <button onclick="closeBook()">Close</button>
-                                <input type="checkbox" id="pageno" onclick="arrangePages()">Two Pages?</input>
-                                <table>
-                                        <tr id=pages>                                        
-                                        </tr>
-                                </table>
-                        </li>
-                </ul>
+                <div class='tile is-ancestor is-vertical'>
+                        <div id="controls" class="tile control box">
+                                <button class="button" onclick="loadDir()">Load Books</button>
+                                <button class="button" onclick="left()">Left</button>
+                                <button class="button" onclick="right()">Right</button>
+                                <button class="button" onclick="closeBook()">Close</button>
+                                <label class="checkbox util"><input type="checkbox" id="pageno" onclick="arrangePages()"/>Two Pages?</label>
+                        </div>
+                        <div id="bookStuff" class="tile is-parent">
+                                <div id='explorer' class = "tile is-4 box">
+                                        <div id='books' class='tile is-vertical columns is-multiline'>
+                                        </div>
+                                </div>
+                                <div class="tile box" id='reader'>
+                                        <table>
+                                                <tr id=pages>                                        
+                                                </tr>
+                                        </table>
+                                </div>
+                        </div>
+                </div>
 	</body>
 </html>
