@@ -19,13 +19,16 @@ var loadDir = function(){
                     var td = document.createElement("div");
                     var div = document.createElement("div");
                     var title = document.createTextNode(bookList.last().name);
+                    var figure = document.createElement("figure");
                     var thumb = document.createElement("img");
                     //thumb.setAttribute('class','thumb tile is-child is-vertical');
                     getThumb(bookList.last(),thumb);
-                    td.setAttribute("class","book tile is-parent is-vertical box");
+                    figure.setAttribute("class","image");
+                    td.setAttribute("class","book box");
                     //div.setAttribute('class','tile is-child is-vertcal');
                     td.setAttribute('onclick',`press(${i})`);
-                    td.appendChild(thumb);
+                    figure.appendChild(thumb);
+                    td.appendChild(figure);
                     div.appendChild(title);
                     td.appendChild(div);
                     document.getElementById('books').appendChild(td);

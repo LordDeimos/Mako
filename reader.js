@@ -40,14 +40,17 @@ var press = function(book){
                 if(fileTypes.includes(entry.name.split('.')[entry.name.split('.').length-1])){
                     i = i+1;
                     var div = document.createElement("td");
+                    var figure = document.createElement("figure");
                     var elem = document.createElement("img");
-                    div.setAttribute('class',"page");
+                    figure.setAttribute('class',"image");
+                    div.setAttribute('class',"book");
                     var data = zip.entryDataSync(entry.name);//this is bad, try for async
                     currentBook.pages.push(data);
                     elem.setAttribute("src", "data:image/jpg;base64," + currentBook.pages.last().toString('base64'));
                     elem.setAttribute("name", entry.name);
                     div.id = i.toString();
-                    div.appendChild(elem);
+                    figure.appendChild(elem);
+                    div.appendChild(figure);
                     div.style.display = 'none';
                     document.getElementById('pages').appendChild(div);
                 }
