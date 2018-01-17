@@ -1,4 +1,4 @@
-
+require('devtron').install();
 var StreamZip = require('node-stream-zip');
 var os = require('os');
 var fs = require("fs");

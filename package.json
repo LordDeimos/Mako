@@ -2,13 +2,16 @@
     "name": "comic_thing",
     "version": "0.0.1",
     "main": "index.js",
-    "repository":"https://github.com/LordDeimos/Comic_Thing/",
-    "license":"GNU",
+    "repository": "https://github.com/LordDeimos/Comic_Thing/",
+    "license": "MIT",
     "dependencies": {
         "bulma": "^0.6.2",
-        "electron": "^1.7.9",
+        "electron": "^1.7.10",
         "file-type": "^7.4.0",
         "node-stream-zip": "^1.4.2",
         "read-chunk": "^2.1.0"
+    },
+    "devDependencies": {
+        "devtron": "^1.4.0"
     }
 }

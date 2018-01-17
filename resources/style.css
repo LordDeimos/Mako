@@ -2,7 +2,7 @@
     float: left;
     object-fit: contain;
     width: auto;
-    height:100%;
+    height:60vh;
 }
 
 #reader{
@@ -22,7 +22,7 @@
     width:150px;
     word-wrap: break-word;
     cursor: pointer;
-    margin: .5% .5% 1.5rem .5%;
+    margin: .5%;
     display: inline-block;
     vertical-align:top;
 }
@@ -105,6 +105,10 @@ body {
     background-color: #453c51;
 }
 
+.windowbutton.close:hover{
+    background-color: #810909;
+}
+
 .windowbutton:active {
     background-color: #26212d;
 }
@@ -145,7 +149,11 @@ body {
     font-size: 32px;
 }
 
-.gitlink>i{
+.link{
+    color: darkgrey;
+}
+.link:hover{
+    color: grey;
 }
 
 .giticoback{
@@ -157,8 +165,8 @@ body {
     /*color: #24292e;*/
     transition-duration: 0.4s;
 }
-.gitico:hover{
-    /*color: white;*/
+.weblink{
+    font-size: 32px;
 }
 
 .bulmalogo{
@@ -179,3 +187,46 @@ a {
     transition-duration: 0.4s;
 }
 
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-size: 0.75rem;
+    visibility: hidden;
+    background-color: grey;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -50px;
+    opacity: 0.4;
+    transition: opacity 0.4s;
+}
+
+.tooltip:hover .tooltiptext {
+    opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: grey transparent transparent transparent;
+}
+
+.loading{
+    font-size: 50px;
+}
