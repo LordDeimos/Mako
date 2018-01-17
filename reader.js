@@ -43,7 +43,7 @@ var press = function(book){
                     var figure = document.createElement("figure");
                     var elem = document.createElement("img");
                     figure.setAttribute('class',"image");
-                    div.setAttribute('class',"book");
+                    div.setAttribute('class',"page");
                     var data = zip.entryDataSync(entry.name);//this is bad, try for async
                     currentBook.pages.push(data);
                     elem.setAttribute("src", "data:image/jpg;base64," + currentBook.pages.last().toString('base64'));

@@ -6,12 +6,13 @@
                 <link rel="stylesheet" type="text/css" href="resources/style.css"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+                <script src="./window_control.js"></script>
                 <script src="./reader.js"></script>
                 <script src="./browser.js"></script>
-                <script src="./window_control.js"></script>
 	</head>
 	<body onload="setHeight()">
-                <div id='titlebar'>Comic Thing
+                <div id='titlebar'>
+                        <div class="windowtitle">Comic Thing</div>
                         <div class="windowbuttons">
                                 <button id="min" class="windowbutton" onclick="minimiseWindow()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
                                 <button id="max" class="windowbutton" onclick="maximiseWindow()"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
@@ -32,7 +33,7 @@
                                         </div>
                                 </div>
                                 <div class="box" id='reader'>
-                                        <table>
+                                        <table id="reader-table">
                                                 <tr id=pages>                                        
                                                 </tr>
                                         </table>

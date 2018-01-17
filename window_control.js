@@ -28,11 +28,10 @@ var minimiseWindow = function(){
 
 var setHeight = function(){
     var window = remote.getCurrentWindow();
-    if(window.isMaximized()){
-        document.getElementById('bookStuff').style="height: 80vh;";
-    }
-    else{
-        document.getElementById('bookStuff').style="height: 76vh;";
-    }
-    console.log(remote.getCurrentWindow().innerHeight);
+    var currentHeight = window.getBounds().height;
+    document.getElementById('bookStuff').style="height: "+currentHeight*0.76+"px";
+    document.getElementById('reader').style="height: "+currentHeight*0.76+"px";
+    document.getElementById('pages').style="height: "+$('#reader').height()+"px";
+    $('.page').maxheight = $('#reader').height();
+    //document.getElementById('bookStuff').style="height: 100vh";
 }
