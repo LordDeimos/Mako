@@ -2,7 +2,7 @@
 <html>
         <head>
                 <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css"/>
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
                 <link rel="stylesheet" type="text/css" href="resources/style.css"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
@@ -14,9 +14,9 @@
                 <div id='titlebar'>
                         <div class="windowtitle">Comic Thing</div>
                         <div class="windowbuttons">
-                                <button id="min" class="windowbutton" onclick="minimiseWindow()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
-                                <button id="max" class="windowbutton" onclick="maximiseWindow()"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-                                <button id="close" class="windowbutton" onclick="closeWindow()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                <button id="min" class="windowbutton" onclick="minimiseWindow()"><i class="fas fa-window-minimize" aria-hidden="true"></i></button>
+                                <button id="max" class="windowbutton" onclick="maximiseWindow()"><i class="fas fa-window-maximize" aria-hidden="true"></i></button>
+                                <button id="close" class="windowbutton close" onclick="closeWindow()"><i class="fas fa-times" aria-hidden="true"></i></button>
                         </div>
                 </div>
                 <div id='parent' class=''>
@@ -30,7 +30,7 @@
                         </div>
                         <div id="bookStuff" class="">
                                 <div id='explorer' class = "box">
-                                        <div id='books' class='tile'>
+                                        <div id='books' class=''>
                                         </div>
                                 </div>
                                 <div class="box" id='reader'>

@@ -37,13 +37,16 @@ var loadDir = function(){
                         var title = document.createTextNode(bookList.last().name);
                         var figure = document.createElement("figure");
                         var thumb = document.createElement("img");
-                        //thumb.setAttribute('class','thumb tile is-child is-vertical');
+                        var spinner = document.createElement('i');
+                        spinner.setAttribute('class',"fas fa-circle-notch fa-spin loading");
+                        spinner.id = bookList.last().name + "Loading";
                         getThumb(bookList.last(),thumb);
                         figure.setAttribute("class","image");
                         td.setAttribute("class","book box");
                         td.setAttribute('id',bookList.last().name);
                         td.setAttribute('onclick',`press(${i})`);
                         figure.appendChild(thumb);
+                        figure.appendChild(spinner);
                         td.appendChild(figure);
                         div.appendChild(title);
                         td.appendChild(div);
@@ -74,6 +77,7 @@ var getThumb = function(comic, thumb){
             entry = Object.values(zip.entries())[i];
         }
         var data = zip.entryDataSync(entry.name);
+        document.getElementById(comic.name + "Loading").remove();
         thumb.setAttribute('src',"data:image/jpg;base64," + data.toString('base64'));
     });
 }
