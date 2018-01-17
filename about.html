@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css"/>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" type="text/css" href="resources/style.css"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <script type="text/javascript">
+                var remote = require('electron').remote;
+                var shell = require('electron').shell;
+                var closeWindow = function(){
+                    var window = remote.getCurrentWindow();
+                    window.close();
+                }
+                var madeWithBulma = function(){
+                    shell.openExternal('https://bulma.io/')
+                }
+                var openGitRepo = function(){
+                    shell.openExternal("https://github.com/LordDeimos/Comic_Thing");
+                }
+
+                var changeTo = function(){
+                    document.getElementById('gitfore').class = "fa fa-github gitico";
+                }
+                var changeBack = function(){
+                    document.getElementById('gitfore').class = "fa fa-github gitico fa-inverse";
+                }
+
+                var changeToWeb = function(){
+                    document.getElementById('web').class = "fa fa-globe fa-inverse";
+                }
+                var changeBackWeb = function(){
+                    document.getElementById('web').class = "fa fa-globe ";
+                }
+
+            </script>
+    </head>
+    <body style="background-color:white">
+        <div id='titlebar'>
+            <div class="windowtitle">About</div>
+            <div class="windowbuttons">
+                    <button id="close" class="windowbutton" onclick="closeWindow()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+    </div>
+    <div class="">        
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        About Comic Thing
+                    </h1>
+                    <h2 class="subtitle">
+                        Its mostly for learing electron, but maybe will become a viable comic reader for release to the public
+                    </h2>
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="content has-text-centered has-text-grey-light">
+                    <a onclick="openGitRepo()" class="gitlink" onmouseover="changeTo()" onmouseleave="changeBack()">
+                        <i class="fa fa-github gitico" id='gitfore'></i>
+                    </a>
+                    <a class="weblink" onclick="openWebsite()" onmouseover="changeToWeb()" onmouseleave="changeBackWeb()">
+                        <i class="fa fa-globe" id='web'></i>
+                    </a>
+                    <a onclick="madeWithBulma()">
+                        <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="bulmalogo">
+                    </a>
+                    <p>
+                        Maybe something about the license?
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    </body>
+</html>

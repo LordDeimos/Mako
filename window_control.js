@@ -2,7 +2,7 @@ var remote = require('electron').remote;
 
 remote.getCurrentWindow().on('resize',function(){
     console.log("Resizing");
-    setHeight();
+    //setHeight();
 });
 
 var closeWindow = function(){
@@ -34,4 +34,12 @@ var setHeight = function(){
     document.getElementById('pages').style="height: "+$('#reader').height()+"px";
     $('.page').maxheight = $('#reader').height();
     //document.getElementById('bookStuff').style="height: 100vh";
+}
+
+var showAbout = function(){
+    var aboutPage = new remote.BrowserWindow({parent:remote.getCurrentWindow(),show:false,frame:false,width:500,height:400});
+    aboutPage.setResizable(false);
+    aboutPage.loadURL(url.format({pathname:path.join(__dirname,'about.html'),protocol:'file:',slashes:true}));
+    aboutPage.on('closed', ()=>{aboutPage=null});
+    aboutPage.once('ready-to-show',aboutPage.show());
 }

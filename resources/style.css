@@ -56,6 +56,7 @@
 
 #bookStuff{
     display: block;
+    height: 76vh;
 }
 
 html{
@@ -84,6 +85,7 @@ body {
     width: 100%;
     -webkit-app-region: drag;
     display: inline-block;
+    height: 24px;
 }
 
 .windowbuttons{
@@ -138,3 +140,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #965b85;
 }
+
+.gitlink{
+    font-size: 32px;
+}
+
+.gitlink>i{
+}
+
+.giticoback{
+    color: transparent;
+    transition-duration: 0.4s;
+}
+
+.gitico{
+    /*color: #24292e;*/
+    transition-duration: 0.4s;
+}
+.gitico:hover{
+    /*color: white;*/
+}
+
+.bulmalogo{
+    background-color: darkgrey;
+    transition-duration: 0.4s;
+}
+
+.bulmalogo:hover{
+    background-color: grey;
+}
+
+a {
+    color: inherit;
+}
+
+#web{
+    font-size: 32px;
+    transition-duration: 0.4s;
+}
+
