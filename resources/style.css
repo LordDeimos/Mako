@@ -145,46 +145,28 @@ body {
     background: #965b85;
 }
 
-.gitlink{
-    font-size: 32px;
-}
-
 .link{
     color: darkgrey;
+    transition-duration: 0.4s;
 }
 .link:hover{
     color: grey;
 }
 
-.giticoback{
-    color: transparent;
-    transition-duration: 0.4s;
-}
-
-.gitico{
-    /*color: #24292e;*/
-    transition-duration: 0.4s;
-}
-.weblink{
-    font-size: 32px;
-}
-
-.bulmalogo{
+img.link{
     background-color: darkgrey;
     transition-duration: 0.4s;
 }
-
-.bulmalogo:hover{
+img.link:hover{
     background-color: grey;
+}
+
+.weblink{
+    font-size: 24px;
 }
 
 a {
     color: inherit;
-}
-
-#web{
-    font-size: 32px;
-    transition-duration: 0.4s;
 }
 
 /* Tooltip container */
@@ -198,6 +180,7 @@ a {
     font-size: 0.75rem;
     visibility: hidden;
     background-color: grey;
+    color: white;
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
@@ -213,6 +196,7 @@ a {
 }
 
 .tooltip:hover .tooltiptext {
+    visibility: visible;
     opacity: 1;
 }
 

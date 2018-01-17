@@ -12,6 +12,11 @@
                     var window = remote.getCurrentWindow();
                     window.close();
                 }
+
+                var openWebsite = function(page){
+                    shell.openExternal(page);
+                };
+
                 var madeWithBulma = function(){
                     shell.openExternal('https://bulma.io/')
                 }
@@ -44,9 +49,9 @@
         <footer class="footer">
             <div class="container">
                 <div class="content has-text-centered has-text-grey-light">
-                    <a onclick="openGitRepo()" class="gitlink">
+                    <a onclick="openWebsite('https://github.com/LordDeimos/Comic_Thing')" class="weblink link">
                         <div class="tooltip">                            
-                            <i class="fab fa-github gitico link" id='gitfore'></i>
+                            <i class="fab fa-github link" id='gitfore'></i>
                             <span class="tooltiptext">Github Repo</span>
                         </div>
                     </a>
@@ -56,8 +61,14 @@
                             <span class="tooltiptext">Website</span>
                         </div>
                     </a>
-                    <a onclick="madeWithBulma()">
-                        <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="bulmalogo">
+                    <a class="weblink link" onclick="openWebsite('https://fontawesome.com/')">
+                        <div class="tooltip">
+                            <i class="fab fa-font-awesome-flag link"></i>
+                            <span class="tooltiptext">Icons By FontAwesome</span>
+                        </div>
+                    </a>
+                    <a onclick="openWebsite('https://bulma.io/')" class="weblink link">
+                        <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="link">
                     </a>
                     <p>
                         Maybe something about the license?
