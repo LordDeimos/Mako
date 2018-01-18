@@ -1,33 +1,33 @@
-.page{
+.page {
     float: left;
     object-fit: contain;
     width: auto;
-    height:60vh;
+    height: 60vh;
 }
 
-#reader{
+#reader {
     margin: 1%;
     float: right;
     width: 64.6666666%;
     height: 100%;
 }
 
-#books{
+#books {
     display: block;
     text-align: center;
 }
 
-.book{
+.book {
     font-size: 0.9em;
-    width:150px;
+    width: 150px;
     word-wrap: break-word;
     cursor: pointer;
     margin: .5%;
     display: inline-block;
-    vertical-align:top;
+    vertical-align: top;
 }
 
-#explorer{
+#explorer {
     margin: 1%;
     background-color: #a53886;
     height: 100%;
@@ -36,50 +36,52 @@
     overflow-y: auto;
 }
 
-.thumb{
-    width:5em;
+.thumb {
+    width: 5em;
 }
 
-#main{
+#main {
     float: left;
 }
 
-#controls{
+#controls {
     margin: 1%;
     max-height: 5%;
     height: 5%;
 }
 
-.util{
+.util {
     padding: 1%;
 }
 
-#bookStuff{
+#bookStuff {
     display: block;
     height: 76vh;
 }
 
-html{
+html {
     overflow-y: hidden;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
 }
+
 body {
     display: table;
     margin: 0;
-    background-color: purple; 
+    background-color: purple;
     overflow-y: hidden;
 }
 
-#parent{
+#parent {
     min-height: 96%;
     width: 100%;
 }
 
-#titlebar{
+#titlebar {
     background-color: #362f3f;
     color: white;
     width: 100%;
@@ -88,12 +90,13 @@ body {
     height: 24px;
 }
 
-.windowbuttons{
+.windowbuttons {
     float: right;
     height: 100%;
     -webkit-app-region: no-drag;
 }
-.windowbutton{
+
+.windowbutton {
     background-color: #362f3f;
     border: none;
     transition-duration: 0.4s;
@@ -101,11 +104,11 @@ body {
     height: 100%;
 }
 
-.windowbutton:hover{
+.windowbutton:hover {
     background-color: #453c51;
 }
 
-.windowbutton.close:hover{
+.windowbutton.close:hover {
     background-color: #810909;
 }
 
@@ -113,55 +116,64 @@ body {
     background-color: #26212d;
 }
 
-.windowtitle{
+.windowtitle {
     margin-left: 1%;
     float: left;
 }
 
+
 /* width*/
+
 ::-webkit-scrollbar {
     width: 10px;
     border-radius: 5px;
 }
 
+
 /* Track */
+
 ::-webkit-scrollbar-track {
-    background: #93427c; 
+    background: #93427c;
     border-radius: 5px;
     transition-duration: 0.4s;
-
 }
 
+
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
-    background: #965b85; 
+    background: #965b85;
     border-radius: 5px;
     transition-duration: 0.4s;
     opacity: 0;
 }
 
+
 /* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
     background: #965b85;
 }
 
-.link{
+.link {
     color: darkgrey;
     transition-duration: 0.4s;
 }
-.link:hover{
+
+.link:hover {
     color: grey;
 }
 
-img.link{
+img.link {
     background-color: darkgrey;
     transition-duration: 0.4s;
 }
-img.link:hover{
+
+img.link:hover {
     background-color: grey;
 }
 
-.weblink{
+.weblink {
     font-size: 24px;
 }
 
@@ -169,13 +181,17 @@ a {
     color: inherit;
 }
 
+
 /* Tooltip container */
+
 .tooltip {
     position: relative;
     display: inline-block;
 }
 
+
 /* Tooltip text */
+
 .tooltip .tooltiptext {
     font-size: 0.75rem;
     visibility: hidden;
@@ -184,7 +200,6 @@ a {
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
- 
     position: absolute;
     z-index: 1;
     width: 100px;
@@ -203,7 +218,8 @@ a {
 .tooltip .tooltiptext::after {
     content: " ";
     position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
+    top: 100%;
+    /* At the bottom of the tooltip */
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -211,6 +227,6 @@ a {
     border-color: grey transparent transparent transparent;
 }
 
-.loading{
+.loading {
     font-size: 50px;
 }

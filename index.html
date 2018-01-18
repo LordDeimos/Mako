@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html>
-        <head>
-                <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css"/>
-                <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-                <link rel="stylesheet" type="text/css" href="resources/style.css"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
-                <script src="./reader.js"></script>
-                <script src="./window_control.js"></script>
-                <script src="./browser.js"></script>
-	</head>
-	<body>
-                <div id='titlebar'>
-                        <div class="windowtitle">Comic Thing</div>
-                        <div class="windowbuttons">
-                                <button id="min" class="windowbutton" onclick="minimiseWindow()"><i class="fas fa-window-minimize" aria-hidden="true"></i></button>
-                                <button id="max" class="windowbutton" onclick="maximiseWindow()"><i class="fas fa-window-maximize" aria-hidden="true"></i></button>
-                                <button id="close" class="windowbutton close" onclick="closeWindow()"><i class="fas fa-times" aria-hidden="true"></i></button>
+
+<head>
+        <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css" />
+        <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+        <link rel="stylesheet" type="text/css" href="resources/style.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+        <script src="./reader.js"></script>
+        <script src="./window_control.js"></script>
+        <script src="./browser.js"></script>
+</head>
+
+<body>
+        <div id='titlebar'>
+                <div class="windowtitle">Comic Thing</div>
+                <div class="windowbuttons">
+                        <button id="min" class="windowbutton" onclick="minimiseWindow()">
+                                <i class="fas fa-window-minimize" aria-hidden="true"></i>
+                        </button>
+                        <button id="max" class="windowbutton" onclick="maximiseWindow()">
+                                <i class="fas fa-window-maximize" aria-hidden="true"></i>
+                        </button>
+                        <button id="close" class="windowbutton close" onclick="closeWindow()">
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                </div>
+        </div>
+        <div id='parent' class=''>
+                <div id="controls" class="box">
+                        <button class="button" onclick="loadDir()">Load Books</button>
+                        <button class="button" onclick="left()">Left</button>
+                        <button class="button" onclick="right()">Right</button>
+                        <button class="button" onclick="closeBook()">Close</button>
+                        <label class="checkbox util">
+                                <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
+                        <button class="button" onclick="showAbout()">About</button>
+                </div>
+                <div id="bookStuff" class="">
+                        <div id='explorer' class="box">
+                                <div id='books' class=''>
+                                </div>
+                        </div>
+                        <div class="box" id='reader'>
+                                <table id="reader-table">
+                                        <tr id=pages>
+                                        </tr>
+                                </table>
                         </div>
                 </div>
-                <div id='parent' class=''>
-                        <div id="controls" class="box">
-                                <button class="button" onclick="loadDir()">Load Books</button>
-                                <button class="button" onclick="left()">Left</button>
-                                <button class="button" onclick="right()">Right</button>
-                                <button class="button" onclick="closeBook()">Close</button>
-                                <label class="checkbox util"><input type="checkbox" id="pageno" onclick="arrangePages()"/>Two Pages?</label>
-                                <button class="button" onclick="showAbout()">About</button>
-                        </div>
-                        <div id="bookStuff" class="">
-                                <div id='explorer' class = "box">
-                                        <div id='books' class=''>
-                                        </div>
-                                </div>
-                                <div class="box" id='reader'>
-                                        <table id="reader-table">
-                                                <tr id=pages>                                        
-                                                </tr>
-                                        </table>
-                                </div>
-                        </div>
-                </div>
-	</body>
+        </div>
+</body>
+
 </html>

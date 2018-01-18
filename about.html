@@ -1,39 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-            <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css"/>
-            <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-            <link rel="stylesheet" type="text/css" href="resources/style.css"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script type="text/javascript">
-                var remote = require('electron').remote;
-                var shell = require('electron').shell;
-                var closeWindow = function(){
-                    var window = remote.getCurrentWindow();
-                    window.close();
-                }
 
-                var openWebsite = function(page){
-                    shell.openExternal(page);
-                };
+<head>
+    <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        var remote = require('electron').remote;
+        var shell = require('electron').shell;
+        var closeWindow = function () {
+            var window = remote.getCurrentWindow();
+            window.close();
+        }
 
-                var madeWithBulma = function(){
-                    shell.openExternal('https://bulma.io/')
-                }
-                var openGitRepo = function(){
-                    shell.openExternal("https://github.com/LordDeimos/Comic_Thing");
-                }
+        var openWebsite = function (page) {
+            shell.openExternal(page);
+        };
+    </script>
+</head>
 
-            </script>
-    </head>
-    <body style="background-color:white">
-        <div id='titlebar'>
-            <div class="windowtitle">About</div>
-            <div class="windowbuttons">
-                    <button id="close" class="windowbutton close" onclick="closeWindow()"><i class="fas fa-times" aria-hidden="true"></i></button>
-            </div>
+<body style="background-color:white">
+    <div id='titlebar'>
+        <div class="windowtitle">About</div>
+        <div class="windowbuttons">
+            <button id="close" class="windowbutton close" onclick="closeWindow()">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
-    <div class="">        
+    <div class="">
         <section class="hero">
             <div class="hero-body">
                 <div class="container">
@@ -50,7 +46,7 @@
             <div class="container">
                 <div class="content has-text-centered has-text-grey-light">
                     <a onclick="openWebsite('https://github.com/LordDeimos/Comic_Thing')" class="weblink link">
-                        <div class="tooltip">                            
+                        <div class="tooltip">
                             <i class="fab fa-github link" id='gitfore'></i>
                             <span class="tooltiptext">Github Repo</span>
                         </div>
@@ -77,5 +73,6 @@
             </div>
         </footer>
     </div>
-    </body>
+</body>
+
 </html>
