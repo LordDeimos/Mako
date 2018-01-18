@@ -38,5 +38,6 @@ var showAbout = function () {
     aboutPage.on('closed', () => {
         aboutPage = null
     });
-    aboutPage.on('ready-to-show', aboutPage.show());
+    //aboutPage.on('ready-to-show', aboutPage.show());
+    aboutPage.show();
 }

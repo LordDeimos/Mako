@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="node_modules/bulma/css/bulma.css" />
+    <link rel="stylesheet" type="text/css" href="resources/bulma.css" />
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
     <link rel="stylesheet" type="text/css" href="resources/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,23 +45,14 @@
         <footer class="footer">
             <div class="container">
                 <div class="content has-text-centered has-text-grey-light">
-                    <a onclick="openWebsite('https://github.com/LordDeimos/Comic_Thing')" class="weblink link">
-                        <div class="tooltip">
-                            <i class="fab fa-github link" id='gitfore'></i>
-                            <span class="tooltiptext">Github Repo</span>
-                        </div>
+                    <a onclick="openWebsite('https://github.com/LordDeimos/Comic_Thing')" class="weblink link tooltip" data-tooltip="Github Repo">
+                        <i class="fab fa-github link" id='gitfore'></i>
                     </a>
-                    <a class="weblink link" onclick="openWebsite()">
-                        <div class="tooltip">
-                            <i class="fas fa-globe" id='web'></i>
-                            <span class="tooltiptext">Website</span>
-                        </div>
+                    <a class="weblink link tooltip" data-tooltip="Website" onclick="openWebsite()">
+                        <i class="fas fa-globe" id='web'></i>
                     </a>
-                    <a class="weblink link" onclick="openWebsite('https://fontawesome.com/')">
-                        <div class="tooltip">
-                            <i class="fab fa-font-awesome-flag link"></i>
-                            <span class="tooltiptext">Icons By FontAwesome</span>
-                        </div>
+                    <a class="weblink link tooltip" data-tooltip="Icons by FontAwesome" onclick="openWebsite('https://fontawesome.com/')">
+                        <i class="fab fa-font-awesome-flag link"></i>
                     </a>
                     <a onclick="openWebsite('https://bulma.io/')" class="weblink link">
                         <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="link">

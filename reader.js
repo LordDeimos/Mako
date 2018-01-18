@@ -1,12 +1,13 @@
 require('devtron').install();
 var StreamZip = require('node-stream-zip');
+var p7zip = require('p7zip');
 var os = require('os');
 var fs = require("fs");
 var url = require('url');
 var path = require('path');
 
 var bookList = [];
-const comicTypes = ['cbz']; //['cbr','cbz','cb7']; will eventually support all three
+const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 

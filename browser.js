@@ -64,7 +64,12 @@ var loadDir = function () {
 }
 
 var getThumb = function (comic, thumb) {
-    var zip = new StreamZip({
+    p7zip.list(comic.directory + comic.name + "." + comic.type).then(function(data){
+        data.files.forEach(function (file, index) {
+            console.log(file);
+        });
+    });
+    /*var zip = new StreamZip({
         file: new url.URL("file:///" + comic.directory + comic.name + "." + comic.type),
         storeEntries: true
     });
@@ -83,5 +88,5 @@ var getThumb = function (comic, thumb) {
         var data = zip.entryDataSync(entry.name);
         document.getElementById(comic.name + "Loading").remove();
         thumb.setAttribute('src', "data:image/jpg;base64," + data.toString('base64'));
-    });
+    });*/
 }
