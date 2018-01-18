@@ -1,12 +1,28 @@
 var electron = require('electron');
 var dialog = electron.dialog || electron.remote.dialog;
-class Test{
-    constructor(message){
-        this.message = message;
+var fs = require('fs');
+
+var defaultSettings = {
+    maximised:false,
+    bounds:{
+        x:undefined,
+        y:undefined,
+        width:1280,
+        height:720
+    },
+};
+class UserSettings{
+    constructor(path){
+        this.path = path;
+        if(!fs.existsSync(path)){
+            fs.writeFileSync(path,JSON.stringify(defaultSettings,null,"\t"));
+        }
+        this.settings = JSON.parse(fs.readFileSync(this.path));
     }
-    test(){
-        dialog.showMessageBox({message:this.message});
-    };
+
+    save(){
+        fs.writeFileSync(this.path,JSON.stringify(this.settings,null,"\t"));
+    }
 }
 
-module.exports = Test;
+module.exports = UserSettings;

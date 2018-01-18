@@ -11,3 +11,4 @@ dist
 *.cb*
 .vscode
 resources/comics
+settings.json
