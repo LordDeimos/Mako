@@ -181,52 +181,6 @@ a {
     color: inherit;
 }
 
-
-/* Tooltip container */
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-
-/* Tooltip text */
-
-.tooltip .tooltiptext {
-    font-size: 0.75rem;
-    visibility: hidden;
-    background-color: grey;
-    color: white;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-    width: 100px;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -50px;
-    opacity: 0.4;
-    transition: opacity 0.4s;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-.tooltip .tooltiptext::after {
-    content: " ";
-    position: absolute;
-    top: 100%;
-    /* At the bottom of the tooltip */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: grey transparent transparent transparent;
-}
-
 .loading {
     font-size: 50px;
 }

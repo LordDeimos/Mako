@@ -7,6 +7,10 @@ dist
 *.tgz
 *.log
 
+#Sass
+.sass-cache/
+*.css.map
+
 #Custom
 *.cb*
 .vscode

@@ -42,11 +42,15 @@ var createWindow = function () {
     });
     win.on('move',function(){        
         settings.settings.maximised = win.isMaximized();
-        settings.settings.bounds = win.getBounds();
+        if(!win.isMaximized()){            
+            settings.settings.bounds = win.getBounds();
+        }
     })
     win.on('resize',function(){
         settings.settings.maximised = win.isMaximized();
-        settings.settings.bounds = win.getBounds();
+        if(!win.isMaximized()){
+            settings.settings.bounds = win.getBounds();
+        }
     })
     win.webContents.on('crashed', function () {
         win.close();
