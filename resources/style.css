@@ -121,40 +121,6 @@ body {
     float: left;
 }
 
-
-/* width*/
-
-::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 5px;
-}
-
-
-/* Track */
-
-::-webkit-scrollbar-track {
-    background: #93427c;
-    border-radius: 5px;
-    transition-duration: 0.4s;
-}
-
-
-/* Handle */
-
-::-webkit-scrollbar-thumb {
-    background: #965b85;
-    border-radius: 5px;
-    transition-duration: 0.4s;
-    opacity: 0;
-}
-
-
-/* Handle on hover */
-
-::-webkit-scrollbar-thumb:hover {
-    background: #965b85;
-}
-
 .link {
     color: darkgrey;
     transition-duration: 0.4s;
