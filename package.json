@@ -16,9 +16,12 @@
         "win": {
             "target": "nsis"
         },
-        "linux":{
+        "linux": {
             "target": "deb"
         }
+    },
+    "engines": {
+        "node": ">=8"
     },
     "dependencies": {
         "bulma": "^0.6.2",
