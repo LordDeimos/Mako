@@ -1,6 +1,9 @@
 var electron = require('electron');
 var dialog = electron.dialog || electron.remote.dialog;
 var fs = require('fs');
+var path = require('path');
+
+var dataPath = path.join(electron.app.getPath('userData'),'settings.json');
 
 var defaultSettings = {
     maximised:false,
@@ -12,16 +15,15 @@ var defaultSettings = {
     },
 };
 class UserSettings{
-    constructor(path){
-        this.path = path;
-        if(!fs.existsSync(path)){
-            fs.writeFileSync(path,JSON.stringify(defaultSettings,null,"\t"));
+    constructor(){
+        if(!fs.existsSync(dataPath)){
+            fs.writeFileSync(dataPath,JSON.stringify(defaultSettings,null,"\t"));
         }
-        this.settings = JSON.parse(fs.readFileSync(this.path));
+        this.settings = JSON.parse(fs.readFileSync(dataPath));
     }
 
     save(){
-        fs.writeFileSync(this.path,JSON.stringify(this.settings,null,"\t"));
+        fs.writeFileSync(dataPath,JSON.stringify(this.settings,null,"\t"));
     }
 }
 

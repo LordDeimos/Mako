@@ -10,7 +10,7 @@ const path = require('path');
 var UserSettings = require('./settings.js');
 
 let win;
-var settings = new UserSettings('settings.json');
+var settings = new UserSettings();
 
 var createWindow = function () {
     win = new BrowserWindow({
