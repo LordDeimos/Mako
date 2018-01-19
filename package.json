@@ -1,19 +1,33 @@
 {
-    "name": "comic_thing",
+    "name": "mako",
     "version": "0.0.1",
+    "author": "Alex Barnier",
+    "description": "",
     "main": "index.js",
     "repository": "https://github.com/LordDeimos/Comic_Thing/",
     "license": "MIT",
+    "scripts": {
+        "postinstall": "electron-builder install-app-deps",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
+    },
+    "build": {
+        "appId": "Mako",
+        "win": {
+          "target": "nsis",
+          "icon": "build/icon.ico"
+        }
+    },
     "dependencies": {
         "bulma": "^0.6.2",
         "bulma-extensions": "^0.6.7",
-        "electron": "^1.7.10",
         "file-type": "^7.4.0",
         "node-stream-zip": "^1.4.2",
         "read-chunk": "^2.1.0"
     },
     "devDependencies": {
         "devtron": "^1.4.0",
-        "electron-builder": "^19.54.0"
+        "electron-builder": "^19.54.0",
+        "electron": "^1.7.10"
     }
 }

@@ -1,7 +1,6 @@
 const {
     app,
-    BrowserWindow,
-    dialog
+    BrowserWindow
 } = require('electron');
 
 const fs = require("fs");
