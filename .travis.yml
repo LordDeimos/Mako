@@ -1,5 +1,6 @@
 language: node_js
-script: sudo yarn dist
+install: sudo npm install
+script: sudo npm run dist
 os: 
   -linux
   -osx

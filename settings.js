@@ -17,6 +17,11 @@ var defaultSettings = {
 class UserSettings{
     constructor(){
         if(!fs.existsSync(dataPath)){
+            fs.open(dataPath,'wx',function(err){
+                if(err){
+                    console.log(err);
+                }
+            })
             fs.writeFileSync(dataPath,JSON.stringify(defaultSettings,null,"\t"));
         }
         this.settings = JSON.parse(fs.readFileSync(dataPath));

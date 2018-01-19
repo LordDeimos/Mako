@@ -1,7 +1,7 @@
 {
     "name": "mako",
     "version": "0.0.1",
-    "author": "Alex Barnier",
+    "author": "Alex Barnier <alexjbarnier@gmail.com>",
     "description": "",
     "main": "index.js",
     "repository": "https://github.com/LordDeimos/Comic_Thing/",
@@ -14,8 +14,10 @@
     "build": {
         "appId": "Mako",
         "win": {
-          "target": "nsis",
-          "icon": "build/icon.ico"
+            "target": "nsis"
+        },
+        "linux":{
+            "target": "deb"
         }
     },
     "dependencies": {
