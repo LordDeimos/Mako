@@ -16,7 +16,7 @@ matrix:
       node-js: "8"
 
 before_install:
-  -node -v
+  - node -v
 cache:
   directories:
   - $HOME/.yarn-cache
