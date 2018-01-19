@@ -1,7 +1,8 @@
+sudo: required
 language: node_js
-node-js: "4"
-install: sudo npm install
-script: sudo npm run dist
+node-js: "8"
+install: npm install
+script: npm run dist
 os: 
   -linux
   -osx
