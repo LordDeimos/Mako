@@ -6,8 +6,9 @@ script: "npm run dist"
 os: linux
 dist: trusty
 language: node-js
-node-js: "8"
+node-js: "9"
 
 before_install:
+  - nvm install 9
   - node -v
   - npm -v
