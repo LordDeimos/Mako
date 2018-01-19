@@ -1,3 +1,8 @@
 language: node_js
-script: yarn dist
-os: windows
+script: sudo yarn dist
+os: 
+  -linux
+  -osx
+matrix:
+  allow_failures:
+    - os: osx
