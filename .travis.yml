@@ -3,20 +3,11 @@ language: node-js
 
 install: "npm install"
 script: "npm run dist"
-
-matrix:
-  include:
-    - os: linux
-      dist: trusty
-      language: node-js
-      node-js: "8"
-      sudo: required
-    - os: osx
-      language: node-js
-      node-js: "8"
+os: linux
+dist: trusty
+language: node-js
+node-js: "8"
 
 before_install:
   - node -v
-cache:
-  directories:
-  - $HOME/.yarn-cache
+  - npm -v
