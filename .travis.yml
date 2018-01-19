@@ -1,8 +1,8 @@
 sudo: required
 language: node-js
 
-install: "npm install"
-script: "npm run dist"
+install: "yarn"
+script: "yarn dist"
 os: linux
 dist: trusty
 language: node-js

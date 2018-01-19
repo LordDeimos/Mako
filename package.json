@@ -2,9 +2,9 @@
     "name": "mako",
     "version": "0.0.1",
     "author": "Alex Barnier <alexjbarnier@gmail.com>",
-    "description": "",
+    "description": "Cross-Platform Comicbook Reader Made in Electron",
     "main": "index.js",
-    "repository": "https://github.com/LordDeimos/Comic_Thing/",
+    "repository": "https://github.com/LordDeimos/Mako/",
     "license": "MIT",
     "scripts": {
         "postinstall": "electron-builder install-app-deps",
