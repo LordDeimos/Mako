@@ -6,7 +6,7 @@
 
    Run the setup exe and you're all set!
 * ### Linux
-   For GNU-Linux distrobutions
+   For GNU-Linux distributions
    ```sh
    sudo dpkg -i mako_0.0.1_amd64.deb
    ```
