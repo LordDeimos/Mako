@@ -55,10 +55,12 @@ var press = function (book) {
                     div.appendChild(figure);
                     div.style.display = 'none';
                     document.getElementById('pages').appendChild(div);
+                    if($("#"+i).height()>$('#pages').height()){
+                        $('#'+i).style = "width: "+($('#'+i).width()*($("#pages").height()/$('#'+i).height()));
+                    }
                 }
             }
         });
-        console.log(i);
         if ((i % 2) !== 0) {
             var div = document.createElement("td");
             div.setAttribute('class', "page")
@@ -191,7 +193,6 @@ var closeBook = function () {
     var trueTotal = (dummy) ? totalPages + 1 : totalPages;
     for (var i = 1; i <= trueTotal; i = i + 1) {
         document.getElementById('pages').removeChild(document.getElementById(i.toString()));
-        console.log("Removing page " + i);
     }
     totalPages = 0;
     dummy = false;

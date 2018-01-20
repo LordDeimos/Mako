@@ -6,7 +6,6 @@ var clearExplorer = function () {
     //Dispose of all div child elements of the div called books
     for (var i = 0; i < bookList.length; i = i + 1) {
         document.getElementById('books').removeChild(document.getElementById(bookList[i].name));
-        console.log("Removing book: " + bookList[i].name);
         bookList = bookList.slice(1);
     }
     bookList = [];
@@ -18,7 +17,6 @@ var loadDir = function () {
     }, function (filePaths) {
         clearExplorer();
         var path = filePaths[0].replace('\\', '/');
-        console.log(path);
         fs.readdir(new url.URL("file:///" + path + '/'), function (err, files) {
             if (err) {
                 return console.error(err);
@@ -28,7 +26,6 @@ var loadDir = function () {
                 bookList = [];
             }
             files.forEach(function (file) {
-                console.log(file);
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
                     if (comicTypes.includes(file.split('.')[file.split('.').length - 1])) {
                         bookList.push({
@@ -75,7 +72,7 @@ var getThumb = function (comic, thumb) {
     });
     zip.on('ready', function (err) {
         if (err) {
-            console.log(err);
+            console.error(err);
             return;
         }
         var i = 0;
