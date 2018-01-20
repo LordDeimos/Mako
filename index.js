@@ -9,7 +9,6 @@ const url = require('url');
 const os = require('os');
 const path = require('path');
 var UserSettings = require('./settings.js');
-
 let win;
 var settings = new UserSettings();
 
