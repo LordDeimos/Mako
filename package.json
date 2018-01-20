@@ -14,10 +14,12 @@
     "build": {
         "appId": "Mako",
         "win": {
-            "target": "nsis"
+            "target": "nsis",
+            "icon": "build/icon.ico"
         },
         "linux": {
-            "target": "deb"
+            "target": "deb",
+            "icon": "build/icon.png"
         }
     },
     "engines": {
