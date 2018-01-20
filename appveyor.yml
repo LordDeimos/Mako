@@ -16,10 +16,15 @@ build_script:
 
 test: off
 
+artifacts:
+  - path: '.\dist\mako Setup 0.0.1.exe'
+    name: Setup
+
 deploy:
   - provider: GitHub
     auth_token:
       secure: ZIWtA/LeJgmNgq0Q8KGZjII3GsbXzLLOu/g6TVQ3T7Ry+CleVnHjDukulvDGZ+us
+    artifacts: Setup
     on:
       branch: master
       appveyor_repo_tag: true
