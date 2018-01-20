@@ -7,7 +7,7 @@ var url = require('url');
 var path = require('path');
 
 var bookList = [];
-const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
+const comicTypes = ['cbz']; //['cbr','cb7']; will eventually support all three
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
@@ -194,6 +194,7 @@ var closeBook = function () {
     for (var i = 1; i <= trueTotal; i = i + 1) {
         document.getElementById('pages').removeChild(document.getElementById(i.toString()));
     }
+    pageCounter = 1;
     totalPages = 0;
     dummy = false;
 };

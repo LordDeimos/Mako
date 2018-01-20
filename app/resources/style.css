@@ -2,6 +2,7 @@
     float: left;
 }
 .page>img {
+    object-fit: contain;
     height:70vh;
 }
 

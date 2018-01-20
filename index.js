@@ -22,7 +22,12 @@ var createWindow = function () {
         frame: false,
         minHeight: 720,
         minWidth: 1280,
-        show: false
+        show: false,
+        useContentSize:true,
+        webPreferences:{
+            javascript: true,
+            nodeIntegration: true
+        }
     });
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'app/index.html'),

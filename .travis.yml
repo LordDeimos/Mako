@@ -5,8 +5,8 @@ matrix:
   include: 
     - os: linux
       dist: trusty
-    - os: osx
-      osx_image: xcode7.2
+#    - os: osx
+#      osx_image: xcode7.2
     
 node_js: "9"
 
@@ -16,6 +16,7 @@ deploy:
   provider: releases
   api_key:
     secure: iLLMi0WxqKIKerizEOWN3xihYe2hk0+MfNokh8xClnnlBzsubD0trt3wuex0b1X4t+dAIVarNC9qBWWwcQDVbSN4c7InqKTwHwKqosWz3Nj0FuX1NN/OwAK+eSmb8QXiVAGVATMJOcCqjEZa78ZEzE645y5Jkz7IIt4uKVBqE7cbvFCvytmuYiEZfZdMQVGrKR4tgqF/LCknPwl6C0tqcsxfv9PQo02e7HIqtV9ttcAtdTunmV57eLciN8SiiMqVnAxeuao/YYfN7c3VIMhSgXNvSaqPdzpIrIQvdU8L4hDK+XnFmWZs5dYgVTsv9Z7JZ9tbuCrxbA+W7IBPxWx+DWFTWe19jVbCTKonCU9rgyzoGE5juAg9odtWKD4HEsWOpl69PlX/TykAIboCQC0fYx1UnaFYAtjxraCEFKFKP/V3VZ0a9RXv1+56MLzk2j3c8rQDlxkqU7Zt4zpzZazLrvnuR5l9vnN+oBFrZBkCkhlaz1TfTKP2B4z/tanJDAYToqOSPLdsLaK59GBlJTj4LFJBWlfSp2Rwqozj8OgzgNYo0QIJZAGZdFH7o2IQ1BWOotyiG56MWAOvdza0QDJz6y0iIezHVXWxeCJQQ9NlNwzBxwEX4/4VuyBUNGURIVqxFu6PLdbHRGeKBqsqktbpHbvcQXAAIlApuLIslocxr+4=
-  file: "./dist/mako_0.0.1_amd64.deb"
+  file: "dist/mako_0.0.1_amd64.deb"
   on:
     repo: LordDeimos/Mako
+    tags: true
