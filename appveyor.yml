@@ -15,3 +15,11 @@ build_script:
   - yarn dist
 
 test: off
+
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: ZIWtA/LeJgmNgq0Q8KGZjII3GsbXzLLOu/g6TVQ3T7Ry+CleVnHjDukulvDGZ+us
+    on:
+      branch: master
+      appveyor_repo_tag: true
