@@ -1,14 +1,13 @@
 sudo: required
-language: node-js
+language: node_js
 
-install: "yarn"
+matrix:
+  include: 
+    - os: linux
+      dist: trusty
+    - os: osx
+      osx_image: xcode7.2
+    
+node_js: "9"
+
 script: "yarn dist"
-os: linux
-dist: trusty
-language: node-js
-node-js: "9"
-
-before_install:
-  - nvm install 9
-  - node -v
-  - npm -v
