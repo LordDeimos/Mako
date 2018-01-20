@@ -1,6 +1,7 @@
 const {
     app,
-    BrowserWindow
+    BrowserWindow,
+    dialog
 } = require('electron');
 
 const fs = require("fs");
@@ -54,9 +55,9 @@ var createWindow = function () {
     win.webContents.on('crashed', function () {
         win.close();
     });
-    win.on('unresponsive', function () {        
+    /*win.on('unresponsive', function () {        
         dialog.showErrorBox({message:"An Error Occured"});
-    })
+    })*/
 }
 
 app.on('ready', createWindow);

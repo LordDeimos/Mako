@@ -41,10 +41,10 @@ var press = function (book) {
             if (!entry.isDirectory) {
                 if (fileTypes.includes(entry.name.split('.')[entry.name.split('.').length - 1])) {
                     i = i + 1;
-                    var div = document.createElement("td");
+                    var div = document.createElement("div");
                     var figure = document.createElement("figure");
                     var elem = document.createElement("img");
-                    figure.setAttribute('class', "image");
+                    figure.setAttribute('class', "image page");
                     div.setAttribute('class', "page");
                     var data = zip.entryDataSync(entry.name); //this is bad, try for async
                     currentBook.pages.push(data);
