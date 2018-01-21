@@ -1,3 +1,41 @@
+
+/* #region Reader*/
+
+#reader {
+    margin: 1%;
+    width: 98%;
+    height: 76%;
+    display: none;
+    position: absolute;
+}
+
+#reader>div{
+    display: flex;
+    justify-content: center;
+}
+
+#reader>div>.nav{
+    position: absolute;
+    top: 50%;
+    font-size: 48px;
+    padding: 16px;
+    margin-top: -32px;
+    transition-duration: 0.4s;
+    display: flex;
+}
+
+#reader>div>.nav:hover{
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+}
+
+#reader>div>.nav.next{
+    right: 0;
+}
+#reader>div>.nav.prev{
+    left: 0;
+}
+
 .page{
     float: left;
 }
@@ -6,11 +44,15 @@
     height:70vh;
 }
 
-#reader {
+/* #endregion */
+
+/* #region Explorer*/
+
+#explorer {
     margin: 1%;
-    float: right;
-    width: 64.6666666%;
+    background-color: #a53886;
     height: 100%;
+    width: 100%;
 }
 
 #books {
@@ -33,58 +75,17 @@
     box-shadow: 0px 0px 5px 5px rgba(100,0,200,0.5);
 }
 
-#explorer {
-    margin: 1%;
-    background-color: #a53886;
-    height: 100%;
-    width: 31.333333%;
-    display: inline-block;
+.loading {
+    font-size: 50px;
 }
 
 .thumb {
     width: 5em;
 }
 
-#main {
-    float: left;
-}
+/* #endregion */
 
-#controls {
-    margin: 1%;
-    max-height: 5%;
-    height: 5%;
-}
-
-.util {
-    padding: 1%;
-}
-
-#bookStuff {
-    display: block;
-    height: 76vh;
-}
-
-html {
-    overflow-y: hidden;
-}
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-}
-
-body {
-    display: table;
-    margin: 0;
-    background-color: purple;
-    overflow-y: hidden;
-}
-
-#parent {
-    min-height: 96%;
-    width: 100%;
-}
+/* #region Title*/
 
 #titlebar {
     background-color: #362f3f;
@@ -114,7 +115,7 @@ body {
 }
 
 .windowbutton.close:hover {
-    background-color: #810909;
+    background-color: #cc0000;
 }
 
 .windowbutton:active {
@@ -124,7 +125,12 @@ body {
 .windowtitle {
     margin-left: 1%;
     float: left;
+}float:right;
 }
+
+/* #endregion */
+
+/* #region Links*/
 
 .link {
     color: darkgrey;
@@ -152,6 +158,43 @@ a {
     color: inherit;
 }
 
-.loading {
-    font-size: 50px;
+/* #endregion */
+
+/* #region Containers*/
+
+#controls {
+    margin: 1%;
 }
+
+
+#bookStuff {
+    display: flex;
+    height: 76vh;
+}
+
+#parent {
+    height: 100%;
+}
+
+/* #endregion */
+
+/* #region Background*/
+
+html {
+    overflow-y: hidden;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: table;
+    margin: 0;
+    background-color: rgb(109, 67, 148);
+    overflow-y: hidden;
+}
+
+/* #endregion */

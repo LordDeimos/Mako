@@ -17,14 +17,15 @@ var pageDisplay = false;
 var dummy = false;
 
 var currentBook = {};
-var press = function (book) {
+var loadBook = function (book) {
+    $('#reader').css('display', 'block');
     console.log("Closing old book");
     closeBook();
     totalPages = 0;
     dummy = false;
-    console.log("Loading " + bookList[book].name);
+    console.log("Loading " + bookList[book].title);
     var zip = new StreamZip({
-        file: new url.URL("file:///" + bookList[book].directory + bookList[book].name + "." + bookList[book].type),
+        file: new url.URL("file:///" + bookList[book].directory + bookList[book].filename + "." + bookList[book].type),
         storeEntries: true
     });
     currentBook = {

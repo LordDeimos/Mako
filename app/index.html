@@ -11,14 +11,17 @@
         <script src="./reader.js"></script>
         <script src="./window_control.js"></script>
         <script src="./browser.js"></script>
-        <script> type="text/javascript">
-                require('devtron').install();
+        <script>
+                type = "text/javascript" >
+                        require('devtron').install();
         </script>
 </head>
 
 <body>
         <div id='titlebar'>
-                <div class="windowtitle">Mako</div>
+                <div class="windowtitle">
+                        Mako
+                </div>
                 <div class="windowbuttons">
                         <button id="min" class="windowbutton" onclick="minimiseWindow()">
                                 <i class="fas fa-window-minimize" aria-hidden="true"></i>
@@ -34,20 +37,25 @@
         <div id='parent' class=''>
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
-                        <button class="button" onclick="left()">Left</button>
-                        <button class="button" onclick="right()">Right</button>
                         <button class="button" onclick="closeBook()">Close</button>
                         <label class="checkbox util">
                                 <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
                         <button class="button" onclick="showAbout()">About</button>
                 </div>
-                <div id="bookStuff" class="">
+                <div id="bookStuff">
                         <div id='explorer' class="box">
                                 <div id='books' class=''>
                                 </div>
                         </div>
-                        <div class="box" id='reader'>
-                                <div id="pages">
+                        <div id='reader' class="box">
+                                <div>
+                                        <div id="pages"></div>
+                                        <a class="nav prev" onclick="left()">
+                                                <i class="fas fa-caret-left"></i>
+                                        </a>
+                                        <a class="nav next" onclick="right()">
+                                                <i class="fas fa-caret-right"></i>
+                                        </a>
                                 </div>
                         </div>
                 </div>

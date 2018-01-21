@@ -48,7 +48,7 @@ var loadDir = function () {
                         figure.setAttribute("class", "image");
                         div.setAttribute("class", "book box");
                         div.setAttribute('id', bookList[i].filename);
-                        div.setAttribute('onclick', `press(${i})`);
+                        div.setAttribute('onclick', `loadBook(${i})`);
                         figure.appendChild(thumb);
                         figure.appendChild(spinner);
                         div.appendChild(figure);
