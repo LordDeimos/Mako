@@ -18,7 +18,11 @@
             "icon": "build/icon.ico"
         },
         "linux": {
-            "target": "deb",
+            "category":"Viewer",
+            "target": [
+                "deb",
+                "tar.gz"
+            ],
             "icon": "build/icon.png"
         }
     },
