@@ -1,4 +1,4 @@
-version: 0.0.1.{build}
+version: 0.0.2.{build}
 platform:
   - x64
 
@@ -17,7 +17,7 @@ build_script:
 test: off
 
 artifacts:
-  - path: '.\dist\mako Setup 0.0.1.exe'
+  - path: '.\dist\mako Setup 0.0.2.exe'
     name: Setup
 
 deploy:
@@ -26,5 +26,5 @@ deploy:
       secure: ZIWtA/LeJgmNgq0Q8KGZjII3GsbXzLLOu/g6TVQ3T7Ry+CleVnHjDukulvDGZ+us
     artifacts: Setup
     on:
-      branch: master
+      branch: v0.0.2
       appveyor_repo_tag: true

@@ -10,6 +10,7 @@
     <script type="text/javascript">
         var remote = require('electron').remote;
         var shell = require('electron').shell;
+        var fs=require('fs');
         var closeWindow = function () {
             var window = remote.getCurrentWindow();
             window.close();
@@ -18,6 +19,7 @@
         var openWebsite = function (page) {
             shell.openExternal(page);
         };
+
     </script>
 </head>
 
@@ -49,17 +51,17 @@
                     <a onclick="openWebsite('https://github.com/LordDeimos/Mako')" class="weblink link tooltip" data-tooltip="Github Repo">
                         <i class="fab fa-github link" id='gitfore'></i>
                     </a>
-                    <!--<a class="weblink link tooltip" data-tooltip="Website" onclick="openWebsite()">
+                    <a class="weblink link tooltip" data-tooltip="Website" onclick="openWebsite()">
                         <i class="fas fa-globe" id='web'></i>
-                    </a>-->
+                    </a>
                     <a class="weblink link tooltip" data-tooltip="Icons by FontAwesome" onclick="openWebsite('https://fontawesome.com/')">
                         <i class="fab fa-font-awesome-flag link"></i>
                     </a>
                     <a onclick="openWebsite('https://bulma.io/')" class="weblink link">
                         <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="link">
                     </a>
-                    <p>
-                        v0.0.1
+                    <p id="current-version">
+                        0.0.2
                     </p>
                 </div>
             </div>

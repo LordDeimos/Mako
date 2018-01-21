@@ -1,6 +1,6 @@
 {
     "name": "mako",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Alex Barnier <alexjbarnier@gmail.com>",
     "description": "Cross-Platform Comicbook Reader Made in Electron",
     "main": "index.js",
