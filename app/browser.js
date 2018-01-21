@@ -25,38 +25,69 @@ var loadDir = function () {
             if (bookList.length !== 0) {
                 bookList = [];
             }
+            var count =0;
             files.forEach(function (file) {
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
-                    if (comicTypes.includes(file.split('.')[file.split('.').length - 1])) {
+                    if (comicTypes.includes(file.split('.').last())) {
                         bookList.push({
-                            name: file.replace("." + file.split('.')[file.split('.').length - 1], ""),
+                            filename: file.replace("." + file.split('.').last(), ""),
                             directory: path + '/',
-                            type: file.split('.')[file.split('.').length - 1]
+                            type: file.split('.').last(),
                         });
-                        var td = document.createElement("div");
+                        console.log(bookList.last())
+                        //var td = document.createElement("div");
                         var div = document.createElement("div");
-                        var title = document.createTextNode(bookList.last().name);
+                        //var title = document.createTextNode(bookList.last().filename);
                         var figure = document.createElement("figure");
                         var thumb = document.createElement("img");
                         var spinner = document.createElement('i');
                         spinner.setAttribute('class', "fas fa-circle-notch fa-spin loading");
-                        spinner.id = bookList.last().name + "Loading";
-                        getThumb(bookList.last(), thumb);
+                        spinner.id = bookList[i].filename + "Loading";
+                        getThumb(bookList[i], thumb);
+                        getInfo(bookList.last(),div);
                         figure.setAttribute("class", "image");
-                        td.setAttribute("class", "book box");
-                        td.setAttribute('id', bookList.last().name);
-                        td.setAttribute('onclick', `press(${i})`);
+                        div.setAttribute("class", "book box");
+                        div.setAttribute('id', bookList[i].filename);
+                        div.setAttribute('onclick', `press(${i})`);
                         figure.appendChild(thumb);
                         figure.appendChild(spinner);
-                        td.appendChild(figure);
-                        div.appendChild(title);
-                        td.appendChild(div);
-                        document.getElementById('books').appendChild(td);
+                        div.appendChild(figure);
+                        //div.appendChild(title);
+                        //td.appendChild(div);
+                        document.getElementById('books').appendChild(div);
                         i = i + 1;
                     }
                 }
             });
         });
+    });
+}
+
+var getInfo = function(comic,title){
+    var zip = new StreamZip({
+        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
+        storeEntries: true
+    });
+    zip.on('ready',function(){
+        console.log(Object.values(zip.entries()).length);
+        var j=0;
+        while(j<Object.values(zip.entries()).length && Object.values(zip.entries())[j].name.split('.').last()!=='json'){
+            console.log(Object.values(zip.entries())[j].name.split('.').last());
+            var entry = Object.values(zip.entries())[j];
+            ++j;
+        }
+        j = (j===Object.values(zip.entries()).length)?j-1:j;
+        if(Object.values(zip.entries())[j].name.split('.').last()==='json'){
+            var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[j]));
+            Object.assign(comic, info);
+            if(comic.title===""){
+                comic.title = comic.series +" #"+comic.number;
+            }
+        }
+        else{            
+            comic.title = comic.filename;
+        }
+        title.appendChild(document.createTextNode(comic.title));
     });
 }
 
@@ -67,7 +98,7 @@ var getThumb = function (comic, thumb) {
         });
     });*/
     var zip = new StreamZip({
-        file: new url.URL("file:///" + comic.directory + comic.name + "." + comic.type),
+        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
         storeEntries: true
     });
     zip.on('ready', function (err) {
@@ -77,13 +108,14 @@ var getThumb = function (comic, thumb) {
         }
         var i = 0;
         var entry = Object.values(zip.entries())[i];
-        while (!fileTypes.includes(entry.name.split('.')[entry.name.split('.').length - 1] ||
-                entry.isDirectory)) {
+        while (!fileTypes.includes(entry.name.split('.').last() ||
+            entry.isDirectory)) {
             i = i + 1;
             entry = Object.values(zip.entries())[i];
         }
         var data = zip.entryDataSync(entry.name);
-        document.getElementById(comic.name + "Loading").remove();
+        document.getElementById(comic.filename + "Loading").remove();
         thumb.setAttribute('src', "data:image/jpg;base64," + data.toString('base64'));
     });
+    
 }

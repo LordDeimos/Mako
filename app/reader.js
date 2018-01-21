@@ -1,5 +1,4 @@
 var StreamZip = require('node-stream-zip');
-//var p7zip = require('p7zip');
 var os = require('os');
 var fs = require("fs");
 var url = require('url');
