@@ -26,15 +26,14 @@
         "node": ">=8"
     },
     "dependencies": {
+        "adm-zip": "^0.4.7",
         "bulma": "^0.6.2",
         "bulma-extensions": "^0.6.7",
-        "file-type": "^7.4.0",
-        "node-stream-zip": "^1.4.2",
-        "read-chunk": "^2.1.0"
+        "node-stream-zip": "^1.4.2"
     },
     "devDependencies": {
         "devtron": "^1.4.0",
-        "electron-builder": "^19.54.0",
-        "electron": "^1.7.10"
+        "electron": "^1.7.10",
+        "electron-builder": "^19.54.0"
     }
 }

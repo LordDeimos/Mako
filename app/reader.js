@@ -6,7 +6,7 @@ var url = require('url');
 var path = require('path');
 
 var bookList = [];
-const comicTypes = ['cbz']; //['cbr','cb7']; will eventually support all three
+const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
