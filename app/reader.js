@@ -18,9 +18,9 @@ var dummy = false;
 
 var currentBook = {};
 var loadBook = function (book) {
-    $('#reader').css('display', 'block');
     console.log("Closing old book");
     closeBook();
+    $('#reader').css('display', 'flex');
     totalPages = 0;
     dummy = false;
     console.log("Loading " + bookList[book].title);
@@ -195,5 +195,6 @@ var closeBook = function () {
     }
     pageCounter = 1;
     totalPages = 0;
-    dummy = false;
+    dummy = false;    
+    $('#reader').css('display', 'none');
 };

@@ -3,10 +3,7 @@
 
 #reader {
     margin: 1%;
-    width: 98%;
-    height: 76%;
     display: none;
-    position: absolute;
 }
 
 #reader>div{
@@ -15,13 +12,11 @@
 }
 
 #reader>div>.nav{
-    position: absolute;
-    top: 50%;
     font-size: 48px;
-    padding: 16px;
-    margin-top: -32px;
     transition-duration: 0.4s;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #reader>div>.nav:hover{
@@ -29,11 +24,10 @@
     border-radius: 5px;
 }
 
-#reader>div>.nav.next{
-    right: 0;
-}
-#reader>div>.nav.prev{
-    left: 0;
+#pages{    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .page{
@@ -51,8 +45,7 @@
 #explorer {
     margin: 1%;
     background-color: #a53886;
-    height: 100%;
-    width: 100%;
+    flex: 1 1 auto;
 }
 
 #books {
@@ -70,6 +63,7 @@
     margin: 1%;
     display: inline-block;
     vertical-align: top;
+    white-space: pre-wrap;
 }
 .book:hover{    
     box-shadow: 0px 0px 5px 5px rgba(100,0,200,0.5);
@@ -164,16 +158,20 @@ a {
 
 #controls {
     margin: 1%;
+    flex: 0 1 auto;
 }
 
 
 #bookStuff {
     display: flex;
-    height: 76vh;
+    flex: 1 1 auto;
+    flex-direction: row;
 }
 
 #parent {
-    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 }
 
 /* #endregion */
@@ -181,7 +179,7 @@ a {
 /* #region Background*/
 
 html {
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 html,
@@ -191,10 +189,11 @@ body {
 }
 
 body {
-    display: table;
+    display: flex;
     margin: 0;
     background-color: rgb(109, 67, 148);
-    overflow-y: hidden;
+    overflow: hidden;
+    flex-direction: column;
 }
 
 /* #endregion */

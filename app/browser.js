@@ -4,12 +4,30 @@ const {
 
 var clearExplorer = function () {
     //Dispose of all div child elements of the div called books
-    for (var i = 0; i < bookList.length; i = i + 1) {
-        document.getElementById('books').removeChild(document.getElementById(bookList[i].name));
-        bookList = bookList.slice(1);
+    try{
+        var books = document.getElementById('books');
+        while(books.firstChild){
+            books.removeChild(books.firstChild);
+            bookList = bookList.slice(1);
+        }
+    }
+    catch(err){
+        console.error(err);
     }
     bookList = [];
 };
+
+var sortBook = function(a,b){
+    var titleA = a.title.toLowerCase()
+    var titleB = b.title.toLowerCase();
+    if(titleA<titleB){
+        return -1;
+    }
+    else if(titleB<titleA){
+        return 1;
+    }
+    return 0;
+}
 
 var loadDir = function () {
     dialog.showOpenDialog({
@@ -26,35 +44,48 @@ var loadDir = function () {
                 bookList = [];
             }
             var count =0;
+            files.sort();
             files.forEach(function (file) {
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
                     if (comicTypes.includes(file.split('.').last())) {
-                        bookList.push({
+                        var comic = {
                             filename: file.replace("." + file.split('.').last(), ""),
                             directory: path + '/',
                             type: file.split('.').last(),
+                            read: true,
+                        };
+                        var zip = new StreamZip({
+                            file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
+                            storeEntries: true
                         });
-                        console.log(bookList.last())
-                        //var td = document.createElement("div");
-                        var div = document.createElement("div");
-                        //var title = document.createTextNode(bookList.last().filename);
-                        var figure = document.createElement("figure");
-                        var thumb = document.createElement("img");
-                        var spinner = document.createElement('i');
-                        spinner.setAttribute('class', "fas fa-circle-notch fa-spin loading");
-                        spinner.id = bookList[i].filename + "Loading";
-                        getThumb(bookList[i], thumb);
-                        getInfo(bookList.last(),div);
-                        figure.setAttribute("class", "image");
-                        div.setAttribute("class", "book box");
-                        div.setAttribute('id', bookList[i].filename);
-                        div.setAttribute('onclick', `loadBook(${i})`);
-                        figure.appendChild(thumb);
-                        figure.appendChild(spinner);
-                        div.appendChild(figure);
-                        //div.appendChild(title);
-                        //td.appendChild(div);
-                        document.getElementById('books').appendChild(div);
+                        zip.on('ready',function(){
+                            var j=0;
+                            while(j<Object.values(zip.entries()).length && Object.values(zip.entries())[j].name.split('.').last()!=='json'){
+                                var entry = Object.values(zip.entries())[j];
+                                ++j;
+                            }
+                            j = (j===Object.values(zip.entries()).length)?j-1:j;
+                            if(Object.values(zip.entries())[j].name.split('.').last()==='json'){
+                                var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[j]));
+                                Object.assign(comic, info);
+                                if(comic.title===""){
+                                    comic.title = comic.series +" #"+comic.number;
+                                }
+                            }
+                            else{            
+                                comic.title = comic.filename;
+                            }
+                            bookList.push(comic);
+                            bookList.sort(sortBook);
+                            if(bookList.length===i-1){
+                                var k = 0;
+                                bookList.forEach(function(){
+                                    createBook(bookList[k],k);
+                                    ++k;
+                                });
+                            }
+                        });
+
                         i = i + 1;
                     }
                 }
@@ -63,32 +94,29 @@ var loadDir = function () {
     });
 }
 
-var getInfo = function(comic,title){
-    var zip = new StreamZip({
-        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
-        storeEntries: true
-    });
-    zip.on('ready',function(){
-        console.log(Object.values(zip.entries()).length);
-        var j=0;
-        while(j<Object.values(zip.entries()).length && Object.values(zip.entries())[j].name.split('.').last()!=='json'){
-            console.log(Object.values(zip.entries())[j].name.split('.').last());
-            var entry = Object.values(zip.entries())[j];
-            ++j;
-        }
-        j = (j===Object.values(zip.entries()).length)?j-1:j;
-        if(Object.values(zip.entries())[j].name.split('.').last()==='json'){
-            var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[j]));
-            Object.assign(comic, info);
-            if(comic.title===""){
-                comic.title = comic.series +" #"+comic.number;
-            }
-        }
-        else{            
-            comic.title = comic.filename;
-        }
-        title.appendChild(document.createTextNode(comic.title));
-    });
+var createBook = function (comic,i) {
+    var div = document.createElement("div");
+    var figure = document.createElement("figure");
+    var thumb = document.createElement("img");
+    getThumb(comic,thumb);
+    var spinner = document.createElement('i');
+    spinner.setAttribute('class', "fas fa-circle-notch fa-spin loading");
+    spinner.id = comic.filename + "Loading";
+
+    figure.setAttribute("class", "image");
+    if (!comic.read) {
+        div.setAttribute("class", "book box badge is-badge-warning");
+    } else {
+        div.setAttribute("class", "book box");
+    }
+    div.setAttribute('id', comic.filename);
+    div.setAttribute('onclick', `loadBook(${i})`);
+    figure.appendChild(thumb);
+    figure.appendChild(spinner);
+    div.appendChild(figure);
+    div.setAttribute('data-badge', "");
+    div.appendChild(document.createTextNode(comic.title));
+    document.getElementById('books').appendChild(div);
 }
 
 var getThumb = function (comic, thumb) {
