@@ -34,7 +34,7 @@ var loadDir = function () {
         properties: ['openDirectory']
     }, function (filePaths) {
         clearExplorer();
-        var path = filePaths[0].replace('\\', '/');
+        var path = filePaths[0].replace(/\\/g, '/');
         fs.readdir(new url.URL("file:///" + path + '/'), function (err, files) {
             if (err) {
                 return console.error(err);
@@ -43,7 +43,6 @@ var loadDir = function () {
             if (bookList.length !== 0) {
                 bookList = [];
             }
-            var count =0;
             files.sort();
             files.forEach(function (file) {
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
@@ -58,6 +57,13 @@ var loadDir = function () {
                             file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
                             storeEntries: true
                         });
+
+                        
+                        zip.on('error', err => { 
+                            --i;
+                            console.error(err)
+                         });
+
                         zip.on('ready',function(){
                             var j=0;
                             while(j<Object.values(zip.entries()).length && Object.values(zip.entries())[j].name.split('.').last()!=='json'){
@@ -77,13 +83,14 @@ var loadDir = function () {
                             }
                             bookList.push(comic);
                             bookList.sort(sortBook);
-                            if(bookList.length===i-1){
+                            if(bookList.length===i){
                                 var k = 0;
                                 bookList.forEach(function(){
                                     createBook(bookList[k],k);
                                     ++k;
                                 });
                             }
+                            zip.close();
                         });
 
                         i = i + 1;
@@ -129,6 +136,7 @@ var getThumb = function (comic, thumb) {
         file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
         storeEntries: true
     });
+
     zip.on('ready', function (err) {
         if (err) {
             console.error(err);
@@ -144,6 +152,7 @@ var getThumb = function (comic, thumb) {
         var data = zip.entryDataSync(entry.name);
         document.getElementById(comic.filename + "Loading").remove();
         thumb.setAttribute('src', "data:image/jpg;base64," + data.toString('base64'));
+        zip.close();
     });
     
 }
