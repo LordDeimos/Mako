@@ -54,8 +54,8 @@ var loadBook = function (book) {
                     div.appendChild(figure);
                     div.style.display = 'none';
                     document.getElementById('pages').appendChild(div);
-                    if($("#"+i).height()>$('#pages').height()){
-                        $('#'+i).style = "width: "+($('#'+i).width()*($("#pages").height()/$('#'+i).height()));
+                    if($(`#${i}`).height()>$('#pages').height()){
+                        $(`#${i}`).style = "width: "+($(`#${i}`).width()*($("#pages").height()/$(`#${i}`).height()));
                     }
                 }
             }

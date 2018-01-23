@@ -3,17 +3,6 @@ const {
 } = require('electron').remote;
 
 var clearExplorer = function () {
-    //Dispose of all div child elements of the div called books
-    /*try{
-        var books = document.getElementById('books');
-        while(books.firstChild){
-            books.removeChild(books.firstChild);
-            bookList = bookList.slice(1);
-        }
-    }
-    catch(err){
-        console.error(err);
-    }*/
     books.bookList = [];
 };
 
@@ -42,10 +31,7 @@ var loadDir = function () {
             if (err) {
                 return console.error(err);
             }
-            var i = 0;
-            if (bookList.length !== 0) {
-                bookList = [];
-            }
+
             files.sort();
             files.forEach(function (file) {
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
@@ -62,8 +48,7 @@ var loadDir = function () {
                         });
 
                         
-                        zip.on('error', err => { 
-                            --i;
+                        zip.on('error', err => {
                             console.error(err)
                          });
 
@@ -85,13 +70,13 @@ var loadDir = function () {
                                 comic.title = comic.filename;
                             }
                             comic.loading=true;
-                            getThumb(comic, books.bookList.push(comic));                            
+                            comic.id = "comic"+books.bookList.length;
+                            getThumb(comic);          
+                            books.bookList.push(comic)                  
                             books.bookList.sort(sortBook);
                             //books.bookList = bookList;
                             zip.close();
                         });
-
-                        i = i + 1;
                     }
                 }
             });
@@ -99,32 +84,16 @@ var loadDir = function () {
     });
 }
 
+//Remnant of old dom editing code for future reference when adding back read states
 var createBook = function (comic,i) {
-    var div = document.createElement("div");
-    var figure = document.createElement("figure");
-    var thumb = document.createElement("img");
-    getThumb(comic,thumb);
-    var spinner = document.createElement('i');
-    spinner.setAttribute('class', "fas fa-circle-notch fa-spin loading");
-    spinner.id = comic.filename + "Loading";
-
-    figure.setAttribute("class", "image");
     if (!comic.read) {
         div.setAttribute("class", "book box badge is-badge-warning");
     } else {
         div.setAttribute("class", "book box");
     }
-    div.setAttribute('id', comic.filename);
-    div.setAttribute('onclick', `loadBook(${i})`);
-    figure.appendChild(thumb);
-    figure.appendChild(spinner);
-    div.appendChild(figure);
-    div.setAttribute('data-badge', "");
-    div.appendChild(document.createTextNode(comic.title));
-    document.getElementById('books').appendChild(div);
 }
 
-var getThumb = function (comic,i) {
+var getThumb = function (comic) {
     /*p7zip.list(comic.directory + comic.name + "." + comic.type).then(function(data){
         data.files.forEach(function (file, index) {
             console.log(file);
@@ -149,8 +118,9 @@ var getThumb = function (comic,i) {
         }
         var data = zip.entryDataSync(entry.name);
         comic.loading = false;
-        //Vue.set(books.bookList[i-1],'loading', false)
         //document.getElementById(comic.filename+"Thumb").setAttribute('src', "data:image/jpg;base64," + data.toString('base64'));
+        $(`#${comic.id}>figure>svg`).remove();
+        $(`#${comic.id}>figure>img`).attr('src',"data:image/jpg;base64," + data.toString('base64'));
         zip.close();
     });
     
