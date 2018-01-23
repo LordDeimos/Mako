@@ -20,7 +20,7 @@ var currentBook = {};
 var loadBook = function (book) {
     console.log("Closing old book");
     closeBook();
-    $('#reader').css('display', 'flex');
+    reader.reading = true;
     totalPages = 0;
     dummy = false;
     console.log("Loading " + bookList[book].title);

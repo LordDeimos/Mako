@@ -9,6 +9,8 @@
         <link rel="stylesheet" type="text/css" href="resources/style.css" />
         <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+        <script src="https://vuejs.org/js/vue.js"></script>
+        <!--<script src="https://vuejs.org/js/vue.min.js"></script> For deployment-->
         <script src="./reader.js"></script>
         <script src="./window_control.js"></script>
         <script src="./browser.js"></script>
@@ -38,17 +40,27 @@
         <div id='parent' class=''>
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
-                        <button class="button" onclick="closeBook()">Close</button>
-                        <label class="checkbox util">
-                                <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
                         <button class="button" onclick="showAbout()">About</button>
                 </div>
                 <div id="bookStuff">
                         <div id='explorer' class="box">
-                                <div id='books' class=''>
+                                <div id='books'>
+                                        <div class="book box" v-for="comic in bookList">
+                                                <figure class='image'>
+                                                        <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading"></i>
+                                                        <img v-bind:src="thumb" v-else>
+                                                </figure>
+                                                {{ comic.title }}
+                                        </div>
                                 </div>
                         </div>
-                        <div id='reader' class="box">
+                        <div id='reader' class="box" v-if="reading">
+                                <header>
+                                        <button class="button" onclick="closeBook()">Close</button>
+                                        <label class="checkbox util">
+                                                <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
+
+                                </header>
                                 <div>
                                         <a class="nav prev" onclick="left()">
                                                 <i class="fas fa-caret-left"></i>
@@ -61,6 +73,21 @@
                         </div>
                 </div>
         </div>
+        <script type="text/javascript">
+                //Vue Scripts
+                var reader = new Vue({
+                        el:'#reader',
+                        data:{
+                                reading:false
+                        }
+                });
+                var books = new Vue({
+                        el:'#books',
+                        data:{
+                                bookList:[]
+                        }
+                })
+        </script>
 </body>
 
 </html>
