@@ -45,7 +45,7 @@
                 <div id="bookStuff">
                         <div id='explorer' class="box">
                                 <div id='books'>
-                                        <div class="book box" v-for="comic in bookList" v-bind:id="comic.id">
+                                        <div class="book box" v-for="comic in bookList" v-bind:id="comic.id" v-on:click="openBook(comic)">
                                                 <figure class='image'>
                                                         <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading"></i>
                                                         <img class="thumb">
@@ -85,6 +85,11 @@
                         el:'#books',
                         data:{
                                 bookList:[]
+                        },
+                        methods:{
+                                openBook: function(book){
+                                        loadBook(book);
+                                }
                         }
                 })
         </script>

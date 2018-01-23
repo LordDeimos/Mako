@@ -63,7 +63,6 @@
     margin: 1%;
     display: inline-block;
     vertical-align: top;
-    white-space: pre-wrap;
 }
 .book:hover{    
     box-shadow: 0px 0px 5px 5px rgba(100,0,200,0.5);
