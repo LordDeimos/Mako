@@ -74,7 +74,6 @@ var loadDir = function () {
                             getThumb(comic);          
                             books.bookList.push(comic)                  
                             books.bookList.sort(sortBook);
-                            //books.bookList = bookList;
                             zip.close();
                         });
                     }
@@ -94,11 +93,6 @@ var createBook = function (comic,i) {
 }
 
 var getThumb = function (comic) {
-    /*p7zip.list(comic.directory + comic.name + "." + comic.type).then(function(data){
-        data.files.forEach(function (file, index) {
-            console.log(file);
-        });
-    });*/
     var zip = new StreamZip({
         file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
         storeEntries: true
@@ -118,7 +112,6 @@ var getThumb = function (comic) {
         }
         var data = zip.entryDataSync(entry.name);
         comic.loading = false;
-        //document.getElementById(comic.filename+"Thumb").setAttribute('src', "data:image/jpg;base64," + data.toString('base64'));
         $(`#${comic.id}>figure>svg`).remove();
         $(`#${comic.id}>figure>img`).attr('src',"data:image/jpg;base64," + data.toString('base64'));
         zip.close();

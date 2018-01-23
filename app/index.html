@@ -54,7 +54,7 @@
                                         </div>
                                 </div>
                         </div>
-                        <div id='reader' class="box" v-if="reading">
+                        <div id='reader' class="box">
                                 <header>
                                         <button class="button" onclick="closeBook()">Close</button>
                                         <label class="checkbox util">
@@ -65,7 +65,11 @@
                                         <a class="nav prev" onclick="left()">
                                                 <i class="fas fa-caret-left"></i>
                                         </a>
-                                        <div id="pages"></div>
+                                        <div id="pages">
+                                                <figure id="current-page" class="image page">
+                                                        <img :src="pages[currentPage]">
+                                                </figure>
+                                        </div>
                                         <a class="nav next" onclick="right()">
                                                 <i class="fas fa-caret-right"></i>
                                         </a>
@@ -78,7 +82,7 @@
                 var reader = new Vue({
                         el:'#reader',
                         data:{
-                                reading:false
+                                reading:true
                         }
                 });
                 var books = new Vue({
@@ -90,6 +94,16 @@
                                 openBook: function(book){
                                         loadBook(book);
                                 }
+                        }
+                })
+                var currentBook = new Vue({
+                        ready: function(){
+                                reader.reading=true
+                        },
+                        el:'#pages',
+                        data:{
+                                pages:[],
+                                currentPage:0
                         }
                 })
         </script>

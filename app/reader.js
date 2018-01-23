@@ -16,65 +16,30 @@ Array.prototype.last = function () {
 var pageDisplay = false;
 var dummy = false;
 
-var currentBook = {};
+//var currentBook = {};
+
 var loadBook = function (book) {
     console.log("Closing old book");
     closeBook();
     reader.reading = true;
     totalPages = 0;
-    dummy = false;
-    console.log("Loading " + bookList[book].title);
+    console.log("Loading " + book.title);
     var zip = new StreamZip({
-        file: new url.URL("file:///" + bookList[book].directory + bookList[book].filename + "." + bookList[book].type),
+        file: new url.URL("file:///" + book.directory + book.filename + "." + book.type),
         storeEntries: true
     });
-    currentBook = {
-        title: '',
-        pages: []
-    };
-
     var i = 0;
     zip.on('ready', function () {
-        //for(var entry of Object.values(zip.entries())){
         Object.values(zip.entries()).forEach(function (entry) {
             if (!entry.isDirectory) {
                 if (fileTypes.includes(entry.name.split('.')[entry.name.split('.').length - 1])) {
-                    i = i + 1;
-                    var div = document.createElement("div");
-                    var figure = document.createElement("figure");
-                    var elem = document.createElement("img");
-                    figure.setAttribute('class', "image page");
-                    div.setAttribute('class', "page");
                     var data = zip.entryDataSync(entry.name); //this is bad, try for async
-                    currentBook.pages.push(data);
-                    elem.setAttribute("src", "data:image/jpg;base64," + currentBook.pages.last().toString('base64'));
-                    elem.setAttribute("name", entry.name);
-                    div.id = i.toString();
-                    figure.appendChild(elem);
-                    div.appendChild(figure);
-                    div.style.display = 'none';
-                    document.getElementById('pages').appendChild(div);
-                    if($(`#${i}`).height()>$('#pages').height()){
-                        $(`#${i}`).style = "width: "+($(`#${i}`).width()*($("#pages").height()/$(`#${i}`).height()));
-                    }
+                    currentBook.pages.push("data:image/jpg;base64,"+data.toString('base64'));       
+                    i = i + 1;
                 }
             }
         });
-        if ((i % 2) !== 0) {
-            var div = document.createElement("td");
-            div.setAttribute('class', "page")
-            div.id = (i + 1).toString();
-            div.style.display = 'none';
-            document.getElementById('pages').appendChild(div);
-            dummy = true;
-            if (pageDisplay) {
-                i = i + 1;
-            }
-        }
-        $('#1').fadeIn();
-        if (pageDisplay) {
-            $('#2').fadeIn();
-        }
+        //$('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
         totalPages = i;
         zip.close();
     });
@@ -83,85 +48,40 @@ var loadBook = function (book) {
 var pageCounter = 1;
 var animating = false;
 var left = function () {
-    if (animating) {
+    --currentBook.currentPage;
+    /*if (animating) {
         return;
     }
-    if (pageCounter !== 1) {
+    if (currentBook.currentPage !== 1) {
         animating = true;
-        switch (pageDisplay) {
-            case true:
-                var ani1 = true,
-                    ani2 = true;
-                if (pageCounter !== 2) {
-                    $(`#${pageCounter}`).fadeOut(function () {
-                        $(`#${pageCounter-2}`).fadeIn(function () {
-                            ani1 = false;
-                            animating = ani1 && ani2;
-                        });
-                    });
-                }
-                $(`#${pageCounter+1}`).fadeOut(function () {
-                    $(`#${pageCounter-1}`).fadeIn(function () {
-                        pageCounter = pageCounter - 2;
-                        if (pageCounter === 0) {
-                            pageCounter = 1;
-                        }
-                        ani2 = false;
-                        animating = ani1 && ani2;
-                    });
-                });
-                break;
-            case false:
-                $(`#${pageCounter}`).fadeOut(function () {
-                    $(`#${pageCounter-1}`).fadeIn(function () {
-                        pageCounter = pageCounter - 1;
-                        if (pageCounter === 0) {
-                            pageCounter = 1;
-                        }
-                        animating = false;
-                    });
-                });
-                break;
-        }
-    }
+        $('#pages>figure>img').fadeOut(function(){            
+            --currentBook.currentPage;
+            $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
+            $('#pages>figure>img').fadeIn(function(){
+                animating = false;
+            })
+        })
+    }*/
 };
 
 var right = function () {
-    if (animating) {
+    
+    ++currentBook.currentPage;
+   /* if (animating) {
         return;
     }
     var turn = (pageDisplay) ? (pageCounter !== totalPages - 1) : (pageCounter !== totalPages);
     if (turn) {
         animating = true;
-        switch (pageDisplay) {
-            case true:
-                var ani1 = true,
-                    ani2 = true;
-                $(`#${pageCounter}`).fadeOut(function () {
-                    $(`#${pageCounter+2}`).fadeIn(function () {
-                        ani1 = false;
-                        animating = ani1 && ani2;
-                    });
-                });
-                $(`#${pageCounter+1}`).fadeOut(function () {
-                    $(`#${pageCounter+3}`).fadeIn(function () {
-                        pageCounter = pageCounter + 2;
-                        ani2 = false;
-                        animating = ani1 && ani2;
-                    });
-                });
-                break;
-            case false:
-                $(`#${pageCounter}`).fadeOut(function () {
-                    $(`#${pageCounter+1}`).fadeIn(function () {
-                        pageCounter = pageCounter + 1;
-                        animating = false;
-                    });
-                });
-                break;
-        }
+        $('#pages>figure>img').fadeOut(function(){            
+            ++currentBook.currentPage;
+            $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
+            $('#pages>figure>img').fadeIn(function(){
+                animating = false;
+            })
+        })
 
-    }
+    }*/
 };
 
 var arrangePages = function () {
@@ -189,12 +109,9 @@ var arrangePages = function () {
 
 var closeBook = function () {
     //Dispose of all td child elements of the tr called pages
-    var trueTotal = (dummy) ? totalPages + 1 : totalPages;
-    for (var i = 1; i <= trueTotal; i = i + 1) {
-        document.getElementById('pages').removeChild(document.getElementById(i.toString()));
-    }
-    pageCounter = 1;
-    totalPages = 0;
-    dummy = false;    
-    $('#reader').css('display', 'none');
+    currentBook = {
+        pages:[],
+        currentPage:0
+    };
+    reader.reading=false;
 };
