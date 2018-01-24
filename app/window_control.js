@@ -1,5 +1,3 @@
-var remote = require('electron').remote;
-
 var closeWindow = function () {
     var window = remote.getCurrentWindow();
     window.close();

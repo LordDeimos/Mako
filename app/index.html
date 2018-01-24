@@ -54,21 +54,21 @@
                                         </div>
                                 </div>
                         </div>
-                        <div id='reader' class="box">
+                        <div id='reader' class="box" v-if="reading">
                                 <header>
                                         <button class="button" onclick="closeBook()">Close</button>
                                         <label class="checkbox util">
                                                 <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
 
                                 </header>
-                                <div>
+                                <div id="readerMain">
                                         <a class="nav prev" onclick="left()">
                                                 <i class="fas fa-caret-left"></i>
                                         </a>
                                         <div id="pages">
                                                 <figure id="current-page" class="image page">
-                                                        <img :src="pages[currentPage]">
-                                                </figure>
+                                                        <img>
+                                                </figure> 
                                         </div>
                                         <a class="nav next" onclick="right()">
                                                 <i class="fas fa-caret-right"></i>
@@ -82,7 +82,7 @@
                 var reader = new Vue({
                         el:'#reader',
                         data:{
-                                reading:true
+                                reading:false
                         }
                 });
                 var books = new Vue({
@@ -95,17 +95,7 @@
                                         loadBook(book);
                                 }
                         }
-                })
-                var currentBook = new Vue({
-                        ready: function(){
-                                reader.reading=true
-                        },
-                        el:'#pages',
-                        data:{
-                                pages:[],
-                                currentPage:0
-                        }
-                })
+                });
         </script>
 </body>
 
