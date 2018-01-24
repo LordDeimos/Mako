@@ -1,8 +1,18 @@
 
+/**
+ * @function clearExlorer
+ * @description Resets the explorers list
+ */
 var clearExplorer = function () {
     books.bookList = [];
 };
 
+/**
+ * @function sortBook
+ * @description Custom sort algorithm for books
+ * @param {*Object} a - The current object
+ * @param {*Object} b - The object to compare it to
+ */
 var sortBook = function(a,b){
     var titleA = a.title.toLowerCase()
     var titleB = b.title.toLowerCase();
@@ -15,6 +25,10 @@ var sortBook = function(a,b){
     return 0;
 }
 
+/**
+ * @function loadDir
+ * @description Scans the directory specified by openDirectory dialog into the explorer
+ */
 var loadDir = function () {
     dialog.showOpenDialog({
         properties: ['openDirectory']
@@ -40,50 +54,22 @@ var loadDir = function () {
                             read: true,
                             rtol:false
                         };
-                        var zip = new StreamZip({
-                            file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
-                            storeEntries: true
-                        });
-
-                        
-                        zip.on('error', err => {
-                            console.error(err)
-                         });
-
-                        zip.on('ready',function(){
-                            return new Promise((resolve,reject)=>{
-                                var j=0;
-                                while(j<Object.values(zip.entries()).length && Object.values(zip.entries())[j].name.split('.').last()!=='json'){
-                                    var entry = Object.values(zip.entries())[j];
-                                    ++j;
-                                }
-                                j = (j===Object.values(zip.entries()).length)?j-1:j;
-                                if(Object.values(zip.entries())[j].name.split('.').last()==='json'){
-                                    var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[j]));
-                                    Object.assign(comic, info);
-                                    if(comic.title===""){
-                                        comic.title = comic.series +" #"+comic.number;
-                                    }
-                                }
-                                else{            
-                                    comic.title = comic.filename;
-                                }
-                                comic.loading=true;
-                                comic.id = "comic"+books.bookList.length;          
-                                books.bookList.push(comic)                  
-                                books.bookList.sort(sortBook);
-                                zip.close();
-                                resolve("Got book info: "+comic.title);
-                            }).then(
-                                getThumb(comic)
-                            );
-                        });
+                        ipcRenderer.send('get-info',comic);
                     }
                 }
             });
         });
     });
 }
+
+ipcRenderer.on('push-book',function(event,arg){
+    //console.log(arg);
+    arg.loading=true;
+    arg.id = "comic"+books.bookList.length;          
+    books.bookList.push(arg)                  
+    books.bookList.sort(sortBook);
+    getThumb(arg);
+});
 
 //Remnant of old dom editing code for future reference when adding back read states
 var createBook = function (comic,i) {
@@ -94,34 +80,16 @@ var createBook = function (comic,i) {
     }
 }
 
-var getThumb = function (comic) {
-    var zip = new StreamZip({
-        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
-        storeEntries: true
-    });
-
-    zip.on('ready', function (err) {        
-        return new Promise((resolve,reject)=>{
-            if (err) {
-                console.error(err);
-                reject(err);
-                return;
-            }
-            var i = 0;
-            var entry = Object.values(zip.entries())[i];
-            while (!fileTypes.includes(entry.name.split('.').last() ||
-                entry.isDirectory)) {
-                i = i + 1;
-                entry = Object.values(zip.entries())[i];
-            }
-            var data = zip.entryDataSync(entry.name);
-            comic.loading = false;
-            $(`#${comic.id}>figure>svg`).remove();
-            $(`#${comic.id}>figure>img`).attr('src',"data:image/jpg;base64," + data.toString('base64'));
-            zip.close();
-            resolve("Loaded Thumb");
-        });
-        
-    });
-    
+/**
+ * @function getThumb
+ * @description Retreives the cover of the book specified by comic
+ * @param {*Object} comic 
+ */
+var getThumb = function (comic) {    
+    ipcRenderer.send('get-thumb',comic);
 }
+
+ipcRenderer.on('display-thumb',function(event,arg){
+    $(`#${arg.book.id}>figure>svg`).remove();
+    $(`#${arg.book.id}>figure>img`).attr('src', "data:image/jpg;base64," + arg.thumb.toString('base64'));
+});

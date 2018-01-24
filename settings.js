@@ -14,6 +14,11 @@ var defaultSettings = {
         height:720
     },
 };
+
+/**
+ * @class UserSettings
+ * @description Creates a wrapper for the settings JSON file
+ */
 class UserSettings{
     constructor(){
         if(!fs.existsSync(dataPath)){
@@ -27,6 +32,10 @@ class UserSettings{
         this.settings = JSON.parse(fs.readFileSync(dataPath));
     }
 
+    /**
+     * @function save
+     * @description Write Updated Settings to Disk
+     */
     save(){
         fs.writeFileSync(dataPath,JSON.stringify(this.settings,null,"\t"));
     }

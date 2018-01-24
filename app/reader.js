@@ -1,6 +1,7 @@
 const remote = require('electron').remote;
 var dialog = remote.dialog;
 var process = remote.process;
+var ipcRenderer = require('electron').ipcRenderer; 
 
 var StreamZip = require('node-stream-zip');
 var os = require('os');
@@ -13,6 +14,11 @@ const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all t
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
+/**
+ * @function last
+ * @description Getter for the last array element
+ * @returns Last Element in the Array
+ */
 Array.prototype.last = function () {
     return this[this.length - 1];
 }
@@ -22,6 +28,11 @@ var dummy = false;
 
 var currentBook = {};
 
+/**
+ * @function loadBook
+ * @param {*Object} book - The comic to be loaded
+ * @description Loades the book specified by book into the reader
+ */
 var loadBook = function (book) {
     console.log("Closing old book");
     closeBook();
@@ -67,14 +78,17 @@ var loadBook = function (book) {
         });
     });*/
 };
-
-var pageCounter = 1;
 var animating = false;
+
+/**
+ * @function left
+ * @description Navigates the reader left a page
+ */
 var left = function () {
     if (animating) {
         return;
     }
-    var turn = (!currentBook.rtol)?currentBook.currentPage!==1:currentBook.currentPage!==currentBook.totalPages-1;
+    var turn = (!currentBook.rtol)?currentBook.currentPage!==0:currentBook.currentPage!==currentBook.totalPages-1;
     if (turn) {
         animating = true;
         $('#pages>figure>img').fadeOut(function(){            
@@ -87,11 +101,15 @@ var left = function () {
     }
 };
 
+/**
+ * @function right
+ * @description Navigate the reader right a page
+ */
 var right = function () {
     if (animating) {
         return;
     }
-    var turn = (currentBook.rtol)?currentBook.currentPage!==1:currentBook.currentPage!==currentBook.totalPages-1;
+    var turn = (currentBook.rtol)?currentBook.currentPage!==0:currentBook.currentPage!==currentBook.totalPages-1;
     if (turn) {
         animating = true;
         $('#pages>figure>img').fadeOut(function(){            
@@ -105,31 +123,11 @@ var right = function () {
     }
 };
 
-var arrangePages = function () {
-    pageDisplay = document.getElementById('pageno').checked;
-    animating = true;
-    switch (pageDisplay) {
-        case true:
-            $(`#${pageCounter+1}`).fadeIn(function () {
-                animating = false;
-            });
-            if (dummy) {
-                totalPages = totalPages + 1;
-            }
-            break;
-        case false:
-            $(`#${pageCounter+1}`).fadeOut(function () {
-                animating = false;
-            });
-            if (dummy) {
-                totalPages = totalPages - 1;
-            }
-            break;
-    }
-};
-
+/**
+ * @function closeBook
+ * @description Resets the temporary book container and updates vue
+ */
 var closeBook = function () {
-    //Dispose of all td child elements of the tr called pages
     currentBook = {
         pages:[],
         currentPage:0,
