@@ -39,45 +39,20 @@ var loadBook = function (book) {
     reader.reading = true;
     totalPages = 0;
     console.log("Loading " + book.title);
-    var zip = new StreamZip({
-        file: new url.URL("file:///" + book.directory + book.filename + "." + book.type),
-        storeEntries: true
-    });
     currentBook.rtol = book.rtol;
-    zip.on('entry',entry=>{
-        if(!entry.isDirectory){
-            if (fileTypes.includes(entry.name.split('.').last())) {
-                var data = zip.entryDataSync(entry.name);
-                currentBook.pages.push("data:image/jpg;base64,"+data.toString('base64'));
-                if(currentBook.totalPages===0){                    
-                    $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
-                }
-                ++currentBook.totalPages;
-            }
-        }
-    })
-    var i = 0;
-    /*zip.on('ready', function () {
-        return new Promise((resolve,reject)=>{            
-            Object.values(zip.entries()).forEach(function (entry) {
-                if (!entry.isDirectory) {
-                    if (fileTypes.includes(entry.name.split('.')[entry.name.split('.').length - 1])) {
-                        //var data = zip.entryDataSync(entry.name); //this is bad, try for async
-                        zip.stream(entry.name, (err, stm)=>{
-                            stm.pipe(process.stdout);
-                            //currentBook.pages.push("data:image/jpg;base64,"+data.toString('base64'));    
-                        });   
-                        i = i + 1;
-                    }
-                }
-            });
-            //$('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
-            totalPages = i;
-            zip.close();
-            resolve("Finished loading book");
-        });
-    });*/
+    ipcRenderer.send('load-pages',book);
+    
 };
+
+ipcRenderer.on('push-page',function(event,arg){
+    currentBook.pages.push("data:image/jpg;base64,"+arg.toString('base64'));
+    //currentBook.pages.push('resources/icon.png');
+    if(currentBook.totalPages===0){                    
+        $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
+    }
+    ++currentBook.totalPages;
+})
+
 var animating = false;
 
 /**

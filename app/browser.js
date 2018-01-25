@@ -38,27 +38,8 @@ var loadDir = function () {
         }
         clearExplorer();
         var path = filePaths[0].replace(/\\/g, '/');
-        fs.readdir(new url.URL("file:///" + path + '/'), function (err, files) {
-            if (err) {
-                return console.error(err);
-            }
-
-            files.sort();
-            files.forEach(function (file) {
-                if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
-                    if (comicTypes.includes(file.split('.').last())) {
-                        var comic = {
-                            filename: file.replace("." + file.split('.').last(), ""),
-                            directory: path + '/',
-                            type: file.split('.').last(),
-                            read: true,
-                            rtol:false
-                        };
-                        ipcRenderer.send('get-info',comic);
-                    }
-                }
-            });
-        });
+        ipcRenderer.send('get-info',path);
+        
     });
 }
 
@@ -68,7 +49,7 @@ ipcRenderer.on('push-book',function(event,arg){
     arg.id = "comic"+books.bookList.length;          
     books.bookList.push(arg)                  
     books.bookList.sort(sortBook);
-    getThumb(arg);
+    //getThumb(arg);
 });
 
 //Remnant of old dom editing code for future reference when adding back read states
@@ -91,5 +72,5 @@ var getThumb = function (comic) {
 
 ipcRenderer.on('display-thumb',function(event,arg){
     $(`#${arg.book.id}>figure>svg`).remove();
-    $(`#${arg.book.id}>figure>img`).attr('src', "data:image/jpg;base64," + arg.thumb.toString('base64'));
+    //$(`#${arg.book.id}>figure>img`).attr('src', "data:image/jpg;base64," + arg.thumb.toString('base64'));
 });

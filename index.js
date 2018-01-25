@@ -20,36 +20,58 @@ Array.prototype.last = function () {
 }
 
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
+const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
 
 ipcMain.on('get-info', function (event, arg) {
-    var comic = arg;
-    var zip = new StreamZip({
-        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
-        storeEntries: true
-    });
-    zip.on('error', err => {
-        console.error(err)
-    });
-    zip.on('ready', function () {
-        var i = 0;
-        while (i < Object.values(zip.entries()).length && Object.values(zip.entries())[i].name.split('.').last() !== 'json') {
-            var entry = Object.values(zip.entries())[i];
-            ++i;
+    var path = arg;
+    fs.readdir(new url.URL("file:///" + path + '/'), function (err, files) {
+        if (err) {
+            return console.error(err);
         }
-        i = (i === Object.values(zip.entries()).length) ? i - 1 : i;
-        if (Object.values(zip.entries())[i].name.split('.').last() === 'json') {
-            var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[i]));
-            Object.assign(comic, info);
-            if (comic.title === "") {
-                comic.title = comic.series + " #" + comic.number;
+
+        files.sort();
+        files.forEach(function (file) {
+            if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
+                if (comicTypes.includes(file.split('.').last())) {
+                    var comic = {
+                        filename: file.replace("." + file.split('.').last(), ""),
+                        directory: path + '/',
+                        type: file.split('.').last(),
+                        read: true,
+                        rtol: false
+                    };
+                    var zip = new StreamZip({
+                        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
+                        storeEntries: true
+                    });
+                    zip.on('error', err => {
+                        console.error(err)
+                    });
+                    zip.on('ready', function () {
+                        var i = 0;
+                        while (i < Object.values(zip.entries()).length && Object.values(zip.entries())[i].name.split('.').last() !== 'json') {
+                            var entry = Object.values(zip.entries())[i];
+                            ++i;
+                        }
+                        i = (i === Object.values(zip.entries()).length) ? i - 1 : i;
+                        if (Object.values(zip.entries())[i].name.split('.').last() === 'json') {
+                            var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[i]));
+                            Object.assign(comic, info);
+                            if (comic.title === "") {
+                                comic.title = comic.series + " #" + comic.number;
+                            }
+                        } else {
+                            comic.title = comic.filename;
+                        }
+                        //console.log(comic)
+                        zip.close();
+                        event.sender.send('push-book', comic);
+                    });
+                }
             }
-        } else {
-            comic.title = comic.filename;
-        }
-        //console.log(comic)
-        zip.close();
-        event.sender.send('push-book', comic);
+        });
     });
+
 });
 
 ipcMain.on('get-thumb', function (event, arg) {
@@ -74,10 +96,26 @@ ipcMain.on('get-thumb', function (event, arg) {
         var data = zip.entryDataSync(entry.name);
         comic.loading = false;
         zip.close();
-        event.sender.send('display-thumb',{
-            book:comic,
-            thumb:data
+        event.sender.send('display-thumb', {
+            book: comic,
+            thumb: data
         });
+    });
+});
+
+ipcMain.on('load-pages',function(event,arg){
+    var book = arg;
+    var zip = new StreamZip({
+        file: new url.URL("file:///" + book.directory + book.filename + "." + book.type),
+        storeEntries: true
+    });
+    zip.on('entry',entry=>{
+        if(!entry.isDirectory){
+            if (fileTypes.includes(entry.name.split('.').last())) {
+                var data = zip.entryDataSync(entry.name);
+                event.sender.send('push-page',data);
+            }
+        }
     });
 });
 
