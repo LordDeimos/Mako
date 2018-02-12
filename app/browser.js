@@ -44,7 +44,7 @@ var loadDir = function () {
 }
 
 ipcRenderer.on('push-book',function(event,arg){
-    //console.log(arg);
+    console.log(arg);
     arg.loading=true;
     arg.id = "comic"+books.bookList.length;          
     books.bookList.push(arg)                  

@@ -38,14 +38,18 @@ ipcMain.on('get-info', function (event, arg) {
                         directory: path + '/',
                         type: file.split('.').last(),
                         read: true,
-                        rtol: false
+                        rtol: false,
+                        series:"",
+                        number:-1,
+                        title:""
                     };
                     var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
 
-                    var info = JSON.parse(ArchiveManager.ReadBuffer('info.json',comic.directory + comic.filename + "." + comic.type));
+                    var jsonFile = ArchiveManager.ReadBuffer('info.json',comic.directory + comic.filename + "." + comic.type);
+                    var info = (jsonFile.length>0)?JSON.parse(jsonFile):{};
                     Object.assign(comic, info);
                     if (comic.title === "") {
-                        if(comic.series==="" || comic.number===""){                            
+                        if(comic.series==="" || comic.number===-1){                            
                             comic.title = comic.filename;
                         }
                         else {
