@@ -1,6 +1,9 @@
 sudo: required
 language: node_js
 
+before_install: 
+  - bash install_deps.sh
+
 matrix:
   include: 
     - os: linux
