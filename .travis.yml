@@ -22,3 +22,6 @@ deploy:
     repo: LordDeimos/Mako
     branch: master
     tags: true
+
+notifications:
+  email: false

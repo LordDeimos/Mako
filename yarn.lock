@@ -22,9 +22,9 @@
     "7zip-bin-mac" "~1.0.1"
     "7zip-bin-win" "~2.1.1"
 
-"@types/node@^7.0.18":
-  version "7.0.52"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.52.tgz#8990d3350375542b0c21a83cd0331e6a8fc86716"
+"@types/node@^8.0.24":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.3.tgz#47d00392c5834dd5a095346d72df7ff8995f7365"
 
 accessibility-developer-tools@^2.11.0:
   version "2.12.0"
@@ -62,6 +62,12 @@ ansi-styles@^3.1.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.0.tgz#c159b8d5be0f9e5a6f346dab94f16ce022161b88"
   dependencies:
     color-convert "^1.9.0"
+
+archive-manager@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/archive-manager/-/archive-manager-0.1.1.tgz#bb27a8356c0622bca7192149cbff75595b1878a7"
+  dependencies:
+    nan "^2.8.0"
 
 argparse@^1.0.7:
   version "1.0.9"
@@ -544,11 +550,11 @@ electron-publish@19.54.0:
     fs-extra-p "^4.5.0"
     mime "^2.2.0"
 
-electron@^1.7.10:
-  version "1.7.10"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.10.tgz#3a3e83d965fd7fafe473be8ddf8f472561b6253d"
+electron@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.2.tgz#a817cd733c2972b3c7cc4f777caf6e424b88014d"
   dependencies:
-    "@types/node" "^7.0.18"
+    "@types/node" "^8.0.24"
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
@@ -563,8 +569,8 @@ error-ex@^1.2.0:
     is-arrayish "^0.2.1"
 
 es6-promise@^4.0.5:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.2.tgz#f722d7769af88bd33bc13ec6605e1f92966b82d9"
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -1102,9 +1108,9 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-node-stream-zip@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.4.2.tgz#9631d25ad8b48103ba8d3e86ec12cadf8f406453"
+nan@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.4.0:
   version "2.4.0"
@@ -1279,9 +1285,9 @@ pretty-bytes@^1.0.2:
     get-stdin "^4.0.1"
     meow "^3.1.0"
 
-process-nextick-args@~1.0.6:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3"
+process-nextick-args@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
 
 progress-stream@^1.1.0:
   version "1.2.0"
@@ -1302,9 +1308,18 @@ qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
-rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.2.1:
+rc@^1.0.1, rc@^1.1.6, rc@^1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.4.tgz#a0f606caae2a3b862bbd0ef85482c0125b315fa3"
+  dependencies:
+    deep-extend "~0.4.0"
+    ini "~1.3.0"
+    minimist "^1.2.0"
+    strip-json-comments "~2.0.1"
+
+rc@^1.1.2:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd"
   dependencies:
     deep-extend "~0.4.0"
     ini "~1.3.0"
@@ -1341,13 +1356,13 @@ read-pkg@^1.0.0:
     path-type "^1.0.0"
 
 readable-stream@^2.2.2:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.4.tgz#c946c3f47fa7d8eabc0b6150f4a12f69a4574071"
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
     isarray "~1.0.0"
-    process-nextick-args "~1.0.6"
+    process-nextick-args "~2.0.0"
     safe-buffer "~5.1.1"
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"

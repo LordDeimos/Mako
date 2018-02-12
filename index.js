@@ -10,7 +10,7 @@ const url = require('url');
 const os = require('os');
 const path = require('path');
 var UserSettings = require('./settings.js');
-var StreamZip = require('node-stream-zip');
+const ArchiveManager = require('archive-manager');
 
 let win;
 var settings = new UserSettings();
@@ -20,7 +20,7 @@ Array.prototype.last = function () {
 }
 
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
-const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
+const comicTypes = ['cbz', 'cb7']; //['cbr','cb7']; will eventually support all three
 
 ipcMain.on('get-info', function (event, arg) {
     var path = arg;
@@ -40,33 +40,19 @@ ipcMain.on('get-info', function (event, arg) {
                         read: true,
                         rtol: false
                     };
-                    var zip = new StreamZip({
-                        file: new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type),
-                        storeEntries: true
-                    });
-                    zip.on('error', err => {
-                        console.error(err)
-                    });
-                    zip.on('ready', function () {
-                        var i = 0;
-                        while (i < Object.values(zip.entries()).length && Object.values(zip.entries())[i].name.split('.').last() !== 'json') {
-                            var entry = Object.values(zip.entries())[i];
-                            ++i;
-                        }
-                        i = (i === Object.values(zip.entries()).length) ? i - 1 : i;
-                        if (Object.values(zip.entries())[i].name.split('.').last() === 'json') {
-                            var info = JSON.parse(zip.entryDataSync(Object.values(zip.entries())[i]));
-                            Object.assign(comic, info);
-                            if (comic.title === "") {
-                                comic.title = comic.series + " #" + comic.number;
-                            }
-                        } else {
+                    var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
+
+                    var info = JSON.parse(ArchiveManager.ReadBuffer('info.json',comic.directory + comic.filename + "." + comic.type));
+                    Object.assign(comic, info);
+                    if (comic.title === "") {
+                        if(comic.series==="" || comic.number===""){                            
                             comic.title = comic.filename;
                         }
-                        //console.log(comic)
-                        zip.close();
-                        event.sender.send('push-book', comic);
-                    });
+                        else {
+                            comic.title = comic.series + " #" + comic.number;
+                        }
+                    }
+                    event.sender.send('push-book', comic);
                 }
             }
         });
@@ -103,17 +89,17 @@ ipcMain.on('get-thumb', function (event, arg) {
     });
 });
 
-ipcMain.on('load-pages',function(event,arg){
+ipcMain.on('load-pages', function (event, arg) {
     var book = arg;
     var zip = new StreamZip({
         file: new url.URL("file:///" + book.directory + book.filename + "." + book.type),
         storeEntries: true
     });
-    zip.on('entry',entry=>{
-        if(!entry.isDirectory){
+    zip.on('entry', entry => {
+        if (!entry.isDirectory) {
             if (fileTypes.includes(entry.name.split('.').last())) {
                 var data = zip.entryDataSync(entry.name);
-                event.sender.send('push-page',data);
+                event.sender.send('push-page', data);
             }
         }
     });
