@@ -67,9 +67,9 @@ ansi-styles@^3.2.0:
   dependencies:
     color-convert "^1.9.0"
 
-archive-manager@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/archive-manager/-/archive-manager-0.1.3.tgz#04e9b5d6b6550f8ddff2f56f65f342f0c3d465a6"
+archive-manager@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/archive-manager/-/archive-manager-0.1.5.tgz#a06412353535230a063b2849fdbd82789ae62ce0"
   dependencies:
     nan "^2.8.0"
 
@@ -231,9 +231,9 @@ builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
-bulma-extensions@^0.7.0:
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/bulma-extensions/-/bulma-extensions-0.7.18.tgz#1201d8b339be26d140863d4416546cd7f434ce2c"
+bulma-extensions@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bulma-extensions/-/bulma-extensions-1.0.1.tgz#0b455eaa7661ef93254f0214566321bb64747f8d"
 
 bulma@^0.6.2:
   version "0.6.2"
@@ -1115,10 +1115,6 @@ ms@2.0.0:
 nan@^2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
-
-node-stream-zip@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.4.2.tgz#9631d25ad8b48103ba8d3e86ec12cadf8f406453"
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.4.0:
   version "2.4.0"

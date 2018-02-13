@@ -1,16 +1,16 @@
 const remote = require('electron').remote;
 var dialog = remote.dialog;
 var process = remote.process;
-var ipcRenderer = require('electron').ipcRenderer; 
+var ipcRenderer = require('electron').ipcRenderer;
 
-var StreamZip = require('node-stream-zip');
 var os = require('os');
 var fs = require("fs");
 var url = require('url');
 var path = require('path');
+const ArchiveManager = require('archive-manager');
 
 var bookList = [];
-const comicTypes = ['cbz','cb7']; //['cbr','cb7']; will eventually support all three
+const comicTypes = ['cbz', 'cb7']; //['cbr','cb7']; will eventually support all three
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
@@ -40,17 +40,26 @@ var loadBook = function (book) {
     totalPages = 0;
     console.log("Loading " + book.title);
     currentBook.rtol = book.rtol;
-    ipcRenderer.send('load-pages',book);
-    
+
+    var file = book.directory + book.filename + "." + book.type;
+    ArchiveManager.ListContent(file).forEach(function (entry) {
+        if (!ArchiveManager.GetInfo(entry, file).directory) {
+            if (fileTypes.includes(entry.split('.').last())) {
+                var data = ArchiveManager.ReadBuffer(entry, file);
+                event.sender.send('push-page', data);
+            }
+        }
+    });
 };
 
-ipcRenderer.on('push-page',function(event,arg){
-    currentBook.pages.push("data:image/jpg;base64,"+arg.toString('base64'));
+ipcRenderer.on('push-page', function (event, arg) {
+    currentBook.pages.push("data:image/jpg;base64," + arg.toString('base64'));
     //currentBook.pages.push('resources/icon.png');
-    if(currentBook.totalPages===0){                    
-        $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
+    if (currentBook.totalPages === 0) {
+        $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
     }
     ++currentBook.totalPages;
+    console.log("Adding Page " + currentBook.totalPages);
 })
 
 var animating = false;
@@ -63,13 +72,13 @@ var left = function () {
     if (animating) {
         return;
     }
-    var turn = (!currentBook.rtol)?currentBook.currentPage!==0:currentBook.currentPage!==currentBook.totalPages-1;
+    var turn = (!currentBook.rtol) ? currentBook.currentPage !== 0 : currentBook.currentPage !== currentBook.totalPages - 1;
     if (turn) {
         animating = true;
-        $('#pages>figure>img').fadeOut(function(){            
-            currentBook.currentPage = (currentBook.rtol)?currentBook.currentPage+1:currentBook.currentPage-1;
-            $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
-            $('#pages>figure>img').fadeIn(function(){
+        $('#pages>figure>img').fadeOut(function () {
+            currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage + 1 : currentBook.currentPage - 1;
+            $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
+            $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })
         })
@@ -84,13 +93,13 @@ var right = function () {
     if (animating) {
         return;
     }
-    var turn = (currentBook.rtol)?currentBook.currentPage!==0:currentBook.currentPage!==currentBook.totalPages-1;
+    var turn = (currentBook.rtol) ? currentBook.currentPage !== 0 : currentBook.currentPage !== currentBook.totalPages - 1;
     if (turn) {
         animating = true;
-        $('#pages>figure>img').fadeOut(function(){            
-            currentBook.currentPage = (currentBook.rtol)?currentBook.currentPage-1:currentBook.currentPage+1;
-            $('#pages>figure>img').attr('src',currentBook.pages[currentBook.currentPage]);
-            $('#pages>figure>img').fadeIn(function(){
+        $('#pages>figure>img').fadeOut(function () {
+            currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage - 1 : currentBook.currentPage + 1;
+            $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
+            $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })
         })
@@ -104,10 +113,10 @@ var right = function () {
  */
 var closeBook = function () {
     currentBook = {
-        pages:[],
-        currentPage:0,
-        totalPages:0,
-        rtol:false
+        pages: [],
+        currentPage: 0,
+        totalPages: 0,
+        rtol: false
     };
-    reader.reading=false;
+    reader.reading = false;
 };
