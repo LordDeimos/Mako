@@ -2,7 +2,7 @@ sudo: required
 language: node_js
 
 before_install: 
-  - bash install_deps.sh
+  - sudo apt-get install libarchive-dev
 
 matrix:
   include: 

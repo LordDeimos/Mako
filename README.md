@@ -3,20 +3,25 @@
 
 ## Installation
 * ### Windows
-
    Run the setup exe and you're all set!
+   *NOTE* Windows is up in the air while I sort out a dependancy which only works on linux
 * ### Linux
    For GNU-Linux distributions
    ```sh
+   sudo apt-get install libarchive13
    sudo dpkg -i mako_0.0.1_amd64.deb
    ```
    Currently only a deb package is provided, however tarballs will be in future releases.
 * ### Build From Source
    
    ```sh
-      git clone https://github.com/LordDeimos/Mako
-      cd Mako
-      git checkout v0.0.1 #For the current build, ignore if you want to test the dev version
-      yarn && yarn dist
+   sudo apt-get install libarchive-dev
+   ```
+
+   ```sh
+   git clone https://github.com/LordDeimos/Mako
+   cd Mako
+   git checkout v0.0.1 #For the current build, ignore if you want to test the dev version
+   yarn && yarn dist
    ```
    Outputs the current (or dev) build for your operating system to the Mako/dist folder.
