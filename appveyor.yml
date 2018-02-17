@@ -1,6 +1,6 @@
-version: 0.0.2.{build}
+version: 0.1.0.{build}
 platform:
-  - x64
+  - x32
 
 cache:
   - node_modules
@@ -8,7 +8,7 @@ cache:
   - '%USERPROFILE%\.electron'
 
 install:
-  - ps: Install-Product node 9 x64
+  - ps: Install-Product node 8 x32
   - yarn
 
 build_script:
@@ -17,7 +17,7 @@ build_script:
 test: off
 
 artifacts:
-  - path: '.\dist\mako Setup 0.0.2.exe'
+  - path: '.\dist\*.exe'
     name: Setup
 
 deploy:
@@ -26,5 +26,5 @@ deploy:
       secure: ZIWtA/LeJgmNgq0Q8KGZjII3GsbXzLLOu/g6TVQ3T7Ry+CleVnHjDukulvDGZ+us
     artifacts: Setup
     on:
-      branch: v0.0.2
+      branch: v0.1.0
       appveyor_repo_tag: true
