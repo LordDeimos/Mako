@@ -1,6 +1,7 @@
 version: 0.1.0.{build}
 platform:
   - x32
+  - x64
 
 cache:
   - node_modules
@@ -8,7 +9,7 @@ cache:
   - '%USERPROFILE%\.electron'
 
 install:
-  - ps: Install-Product node 8 x32
+  - ps: Install-Product node 8
   - yarn
 
 build_script:
