@@ -27,5 +27,5 @@ deploy:
       secure: ZIWtA/LeJgmNgq0Q8KGZjII3GsbXzLLOu/g6TVQ3T7Ry+CleVnHjDukulvDGZ+us
     artifacts: Setup
     on:
-      branch: v0.1.0
+      branch: v0.1.1
       appveyor_repo_tag: true
