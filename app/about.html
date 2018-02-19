@@ -7,8 +7,6 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
     <link rel="stylesheet" type="text/css" href="resources/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://vuejs.org/js/vue.js"></script>
-    <!--<script src="https://vuejs.org/js/vue.min.js"></script> For deployment-->
     <script type="text/javascript">
         var remote = require('electron').remote;
         var shell = require('electron').shell;
@@ -63,19 +61,8 @@
                         <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="link">
                     </a>
                     <p id="current-version">
-                        {{ version }}
+                        0.1.1
                     </p>
-                    <script type="text/javascript">
-                        //This is probably overkill using vue but gotta practise :D
-                        var fs = require('fs');
-                        var showMeTheVersion = new Vue({
-                            el: '#current-version',
-                            data: {
-                                version: ''
-                            }
-                        })
-                        showMeTheVersion.version = JSON.parse(fs.readFileSync('package.json')).version;
-                    </script>
                 </div>
             </div>
         </footer>
