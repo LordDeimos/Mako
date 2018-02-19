@@ -1,4 +1,4 @@
-version: 0.1.0.{build}
+version: 0.1.1.{build}
 platform:
   - x32
   - x64
@@ -15,7 +15,7 @@ install:
 build_script:
   - yarn dist
 
-test: off
+test: on
 
 artifacts:
   - path: '.\dist\*.exe'
