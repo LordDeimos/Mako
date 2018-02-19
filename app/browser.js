@@ -13,7 +13,7 @@ var clearExplorer = function () {
  * @param {*Object} b - The object to compare it to
  */
 var sortBook = function (a, b) {
-    var titleA = a.title.toLowerCase()
+    var titleA = a.title.toLowerCase();
     var titleB = b.title.toLowerCase();
     if (titleA < titleB) {
         return -1;
@@ -58,21 +58,22 @@ var loadDir = function () {
                         };
                         var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
 
-                        var jsonFile = ArchiveManager.ReadBuffer('info.json', comic.directory + comic.filename + "." + comic.type);
-                        var info = (jsonFile.length) ? JSON.parse(jsonFile) : {};
-                        Object.assign(comic, info);
-                        if (comic.title === "") {
-                            if (comic.series === "" || comic.number === -1) {
-                                comic.title = comic.filename;
-                            } else {
-                                comic.title = comic.series + " #" + comic.number;
+                        ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
+                            var info = (data) ? JSON.parse(data) : {};
+                            Object.assign(comic, info);
+                            if (comic.title === "") {
+                                if (comic.series === "" || comic.number === -1) {
+                                    comic.title = comic.filename;
+                                } else {
+                                    comic.title = comic.series + " #" + comic.number;
+                                }
                             }
-                        }
-                        comic.loading = true;
-                        comic.id = "comic" + books.bookList.length;
-                        books.bookList.push(comic)
-                        books.bookList.sort(sortBook);
-                        getThumb(comic);
+                            comic.loading = true;
+                            comic.id = "comic" + books.bookList.length;
+                            books.bookList.push(comic)
+                            books.bookList.sort(sortBook);
+                            getThumb(comic);
+                        });
                     }
                 }
             });
@@ -98,17 +99,27 @@ var createBook = function (comic, i) {
 var getThumb = function (comic) {
     var file = comic.directory + comic.filename + "." + comic.type;
     var i = 0;
-    var contents = ArchiveManager.ListContent(file);
-    var entry = contents[i];
-    while (!fileTypes.includes(entry.split('.').last() ||
-            ArchiveManager.GetInfo(entry, file).directory)) {
-        i = i + 1;
-        entry = contents[i];
-    }
-    var data = ArchiveManager.ReadBuffer(entry, file);
-    comic.loading = true;
+    ArchiveManager.Content(file, function (err, contents) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        var entry = contents[i];
+        while (!fileTypes.includes(entry.split('.').last() ||
+                ArchiveManager.GetInfo(entry, file).directory)) {
+            i = i + 1;
+            entry = contents[i];
+        }
+        var data = ArchiveManager.Read(entry, file, function (err, data) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            comic.loading = true;
 
-    //$(`#${comic.id}>figure>svg`).remove();
-    $(`#${comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
-    console.log($(`#${comic.id}`));
+            $(`#${comic.id}>figure>svg`).remove();
+            $(`#${comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
+            //console.log($(`#${comic.id}`));
+        });
+    });
 }

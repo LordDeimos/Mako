@@ -47,9 +47,9 @@ ansi-styles@^3.2.0:
   dependencies:
     color-convert "^1.9.0"
 
-archive-manager@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/archive-manager/-/archive-manager-0.2.2.tgz#706a45b62f67de652219d7a3db83dc77f90f2edf"
+archive-manager@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/archive-manager/-/archive-manager-1.0.0.tgz#f55b27704df8dd3ac7402849664d1be83c31e838"
   dependencies:
     nan "^2.8.0"
 
