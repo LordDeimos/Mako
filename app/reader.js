@@ -10,7 +10,7 @@ var path = require('path');
 const ArchiveManager = require('archive-manager');
 
 var bookList = [];
-const comicTypes = ['cbz', 'cb7']; //['cbr','cb7']; will eventually support all three
+const comicTypes = ['cbz', 'cb7', 'cbt'];
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
@@ -21,6 +21,17 @@ var totalPages = 0;
  */
 Array.prototype.last = function () {
     return this[this.length - 1];
+}
+
+function sortEntry(a,b){
+    var nameA = a.name.toLowerCase();
+    var nameB = b.name.toLowerCase();
+    if (nameA < nameB) {
+        return -1;
+    } else if (nameB < nameA) {
+        return 1;
+    }
+    return 0;
 }
 
 var pageDisplay = false;
@@ -42,31 +53,30 @@ var loadBook = function (book) {
     currentBook.rtol = book.rtol;
 
     var file = book.directory + book.filename + "." + book.type;
-    ArchiveManager.Content(file,function(err,files){
-        files.forEach(function (entry) {
-            ArchiveManager.GetInfo(entry, file,function(err,info){
-                if(err){
-                    console.error(err);
-                    return;
-                }
-                if (!info.directory) {
-                    if (fileTypes.includes(entry.split('.').last())) {
-                        ArchiveManager.Read(entry, file, function(err, data){
-                            if(err){
+    ArchiveManager.Content(file, function (err, files) {
+        console.log(files.sort(sortEntry));
+        var i = -1;
+        files.sort(sortEntry).forEach(function (entry) {
+            //++i;
+            if (!entry.directory) {
+                if (fileTypes.includes(entry.name.split('.').last())) {
+                    ++i;
+                    return function (j) {
+                        ArchiveManager.Read(entry.name, file, function (err, data) {
+                            if (err) {
                                 console.error(err);
                                 return;
                             }
-                            currentBook.pages.push("data:image/jpg;base64," + data.toString('base64'));
+                            currentBook.pages[j] = "data:image/jpg;base64," + data.toString('base64');
                             //currentBook.pages.push('resources/icon.png');
-                            if (currentBook.totalPages === 0) {
-                                $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
+                            if (j===0) {
+                                $('#pages>figure>img').attr('src', currentBook.pages[0]);
                             }
                             ++currentBook.totalPages;
-                            console.log("Adding Page " + currentBook.totalPages);
                         });
-                    }
+                    }(i);
                 }
-            });
+            }
         });
     });
 };

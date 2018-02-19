@@ -5,6 +5,7 @@
     margin: 1%;
     display: flex;
     flex-direction: column;
+    width: 120%;
 }
 
 #reader>div{
@@ -119,7 +120,6 @@
 .windowtitle {
     margin-left: 1%;
     float: left;
-}float:right;
 }
 
 /* #endregion */

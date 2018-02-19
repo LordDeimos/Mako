@@ -105,12 +105,11 @@ var getThumb = function (comic) {
             return;
         }
         var entry = contents[i];
-        while (!fileTypes.includes(entry.split('.').last() ||
-                ArchiveManager.GetInfo(entry, file).directory)) {
+        while (!fileTypes.includes(entry.name.split('.').last() || entry.directory)) {
             i = i + 1;
             entry = contents[i];
         }
-        var data = ArchiveManager.Read(entry, file, function (err, data) {
+        var data = ArchiveManager.Read(entry.name, file, function (err, data) {
             if (err) {
                 console.error(err);
                 return;
