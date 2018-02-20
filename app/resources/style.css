@@ -24,7 +24,7 @@
     transition-duration: 0.4s;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-self: center;
 }
 
 #reader>div>.nav:hover{
@@ -42,6 +42,7 @@
     float: left;
     display: flex;
     flex: 1 1 auto;
+    max-height: 100%;
 }
 .page>img {
     object-fit: contain;
@@ -56,6 +57,7 @@
     transition-duration: 0.4s;
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(128,128,128,0.5)), to(rgba(128,128,128,0)), color-stop(0,rgb(128,128,128)));
     opacity: 0;
+    z-index: 2;
 }
 
 .closeReader:hover{
