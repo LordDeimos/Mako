@@ -16,9 +16,11 @@
    ```
 * ### Build From Source
    
+   For Linux, you will need to grab the libarchive-dev package:
    ```sh
    sudo apt-get install libarchive-dev
    ```
+   For Windows, libarchive binaries are provided, but you will need some things required by archive-manager (see [here](https://github.com/LordDeimos/Node-Archive-Manager)).
 
    ```sh
    git clone https://github.com/LordDeimos/Mako
