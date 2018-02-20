@@ -8,7 +8,9 @@
         <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
         <link rel="stylesheet" type="text/css" href="resources/style.css" />
         <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-        <script>window.$ = window.jQuery = require('jquery');</script>
+        <script>
+                window.$ = window.jQuery = require('jquery');
+        </script>
         <script src="https://vuejs.org/js/vue.js"></script>
         <!--<script src="https://vuejs.org/js/vue.min.js"></script> For deployment-->
         <script src="./reader.js"></script>
@@ -55,11 +57,7 @@
                                 </div>
                         </div>
                         <div id='reader' class="box" v-if="reading">
-                                <header>
-                                        <button class="button" onclick="closeBook()">Close</button>
-                                        <label class="checkbox util">
-                                                <input type="checkbox" id="pageno" onclick="arrangePages()" />Two Pages?</label>
-
+                                <header class="closeReader" onclick="closeBook()" onmouseenter="$('#reader').css('top', '10px') " onmouseleave="$('#reader').css('top', '0px') ">
                                 </header>
                                 <div id="readerMain">
                                         <a class="nav prev" onclick="left()">
@@ -68,30 +66,34 @@
                                         <div id="pages">
                                                 <figure id="current-page" class="image page">
                                                         <img>
-                                                </figure> 
+                                                </figure>
                                         </div>
                                         <a class="nav next" onclick="right()">
                                                 <i class="fas fa-caret-right"></i>
                                         </a>
                                 </div>
+                                <footer>
+                                        <div id="pageCount" class="content has-text-centered has-text-grey-light">
+                                        </div>
+                                </footer>
                         </div>
                 </div>
         </div>
         <script type="text/javascript">
                 //Vue Scripts
                 var reader = new Vue({
-                        el:'#reader',
-                        data:{
-                                reading:false
+                        el: '#reader',
+                        data: {
+                                reading: false
                         }
                 });
                 var books = new Vue({
-                        el:'#books',
-                        data:{
-                                bookList:[]
+                        el: '#books',
+                        data: {
+                                bookList: []
                         },
-                        methods:{
-                                openBook: function(book){
+                        methods: {
+                                openBook: function (book) {
                                         loadBook(book);
                                 }
                         }

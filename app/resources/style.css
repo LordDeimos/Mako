@@ -5,7 +5,13 @@
     margin: 1%;
     display: flex;
     flex-direction: column;
-    width: 120%;
+    z-index: 1;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    transition-duration: 0.4s;
 }
 
 #reader>div{
@@ -34,10 +40,27 @@
 
 .page{
     float: left;
+    display: flex;
+    flex: 1 1 auto;
 }
 .page>img {
     object-fit: contain;
-    height:70vh;
+}
+
+.closeReader{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    height: 5%;
+    transition-duration: 0.4s;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(128,128,128,0.5)), to(rgba(128,128,128,0)), color-stop(0,rgb(128,128,128)));
+    opacity: 0;
+}
+
+.closeReader:hover{
+    opacity: 1;
+    border-radius: 5px 5px 0px 0px; 
 }
 
 /* #endregion */
@@ -166,6 +189,7 @@ a {
     display: flex;
     flex: 1 1 auto;
     flex-direction: row;
+    position: relative;
 }
 
 #parent {

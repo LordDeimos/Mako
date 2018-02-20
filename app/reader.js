@@ -51,10 +51,10 @@ var loadBook = function (book) {
     totalPages = 0;
     console.log("Loading " + book.title);
     currentBook.rtol = book.rtol;
+    currentBook.currentPage = 0;
 
     var file = book.directory + book.filename + "." + book.type;
     ArchiveManager.Content(file, function (err, files) {
-        console.log(files.sort(sortEntry));
         var i = -1;
         files.sort(sortEntry).forEach(function (entry) {
             //++i;
@@ -73,6 +73,7 @@ var loadBook = function (book) {
                                 $('#pages>figure>img').attr('src', currentBook.pages[0]);
                             }
                             ++currentBook.totalPages;
+                            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
                         });
                     }(i);
                 }
@@ -97,6 +98,7 @@ var left = function () {
         $('#pages>figure>img').fadeOut(function () {
             currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage + 1 : currentBook.currentPage - 1;
             $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
+            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
             $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })
@@ -118,6 +120,7 @@ var right = function () {
         $('#pages>figure>img').fadeOut(function () {
             currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage - 1 : currentBook.currentPage + 1;
             $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
+            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
             $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })

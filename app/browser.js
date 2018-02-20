@@ -114,7 +114,7 @@ var getThumb = function (comic) {
                 console.error(err);
                 return;
             }
-            comic.loading = true;
+            comic.loading = false;
 
             $(`#${comic.id}>figure>svg`).remove();
             $(`#${comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
