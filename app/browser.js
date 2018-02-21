@@ -54,7 +54,8 @@ var loadDir = function () {
                             rtol: false,
                             series: "",
                             number: -1,
-                            title: ""
+                            title: "",
+                            author:""
                         };
                         var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
 

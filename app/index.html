@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="resources/bulma-badge.css" />
         <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
         <link rel="stylesheet" type="text/css" href="resources/style.css" />
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script>
                 window.$ = window.jQuery = require('jquery');
         </script>
@@ -42,15 +42,15 @@
         <div id='parent' class=''>
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
-                        <button class="button" onclick="$('.modal').addClass('is-active');">About</button>
+                        <button class="button" onclick="$('#about').addClass('is-active');">About</button>
                 </div>
-                <div class="modal">
+                <div id="about" class="modal">
                         <div class="modal-background" onclick="$('.modal').removeClass('is-active');"></div>
                         <div class="modal-card">
                                 <div class="">
                                         <header class="modal-card-head">
                                                 <p class="modal-card-title">About Mako</p>
-                                                <button class="delete" aria-label="close" onclick="$('.modal').removeClass('is-active');"></button>
+                                                <button class="delete" aria-label="close" onclick="$('#about').removeClass('is-active');"></button>
                                         </header>
                                         <section class="modal-card-body">
                                                 Its mostly for learing electron, but maybe will become a viable comic reader for release to the public
@@ -80,9 +80,60 @@
                         </div>
                 </div>
                 <div id="bookStuff">
+                        <div id="edit" class=" hidden modal">
+                                <div class="modal-background" onclick="closeEdit()"></div>
+                                <div class="modal-content box">
+                                        <div class="edit-header">
+                                                <p class="title">Edit Book</p>
+                                                <button class="delete" aria-label="close" onclick="closeEdit()"></button>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Title</label>
+                                                <div class="control">
+                                                        <input id="title" class="input" type="text" onkeypress="handleSubmit(event)">
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Author</label>
+                                                <div class="control">
+                                                        <input id="author" class="input" type="text" onkeypress="handleSubmit(event)">
+                                                </div>
+                                        </div>
+                                        <div class="side-by-side">
+                                                <div class="field is-horizontal">
+                                                        <div class="field-label is-normal">
+                                                                <label class="label">Series</label>
+                                                        </div>
+                                                        <div class="field-body">
+                                                                <div class="control">
+                                                                        <input id="series" class="input" type="text" onkeypress="handleSubmit(event)">
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="field is-horizontal">
+                                                        <div class="field-label is-normal">
+                                                                <label class="label">Number</label>
+                                                        </div>
+                                                        <div class="field-body">
+                                                                <div class="control">
+                                                                        <input id="number" class="input" type="number" min=0 onkeypress="handleSubmit(event)">
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="checkbox">
+                                                        <input id="rtol" type="checkbox" onkeypress="handleSubmit(event)"> Right-To-Left
+                                                </label>
+                                        </div>
+                                        <div class="control">
+                                                <button id="save-book" class="button is-primary">Save</button>
+                                        </div>
+                                </div>
+                        </div>
                         <div id='explorer' class="box">
                                 <div id='books'>
-                                        <div class="book box" v-for="comic in bookList" v-bind:id="comic.id" v-on:click="openBook(comic)">
+                                        <div class="book box" v-for="comic in bookList" v-bind:id="comic.id" v-on:click="openBook(comic)" @contextmenu.prevent="editBook(comic)">
                                                 <figure class='image'>
                                                         <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading"></i>
                                                         <img class="thumb">
@@ -130,6 +181,41 @@
                         methods: {
                                 openBook: function (book) {
                                         loadBook(book);
+                                },
+                                editBook: function (book) {
+                                        $('#edit').addClass('is-active');
+                                        $('#title').attr('placeholder', book.title);
+                                        $('#author').attr('placeholder', book.author);
+                                        $('#series').attr('placeholder', book.series);
+
+                                        $('#title').val('');
+                                        $('#author').val('');
+                                        $('#series').val('');
+                                        $('#number').val('');
+                                        if (book.number !== -1) {
+                                                $('#number').attr('placeholder', book.number);
+                                        } else {
+                                                $('#number').attr('placeholder', 0);
+                                        }
+                                        $('#rtol').prop('checked', book.rtol);
+                                        $('#edit').animate({
+                                                opacity: 1
+                                        }, '0.4s');
+                                        $('#save-book').click(function(){
+                                                var newTitle = ($('#title').val()!=="")?$('#title').val(): $('#title').attr('placeholder');
+                                                var newAuthor = ($('#author').val()!=="")?$('#author').val(): $('#author').attr('placeholder');
+                                                var newSeries = ($('#series').val()!=="")?$('#series').val(): $('#series').attr('placeholder');
+                                                var newNumber = ($('#number').val()!=="")?$('#number').val(): $('#number').attr('placeholder');
+                                                var newDirection = ($('#rtol').is(":checked"));
+                                                Object.assign(book,{
+                                                        title:newTitle,
+                                                        author:newAuthor,
+                                                        series:newSeries,
+                                                        number:newNumber,
+                                                        rtol:newDirection
+                                                });
+                                                closeEdit(); 
+                                        });
                                 }
                         }
                 });

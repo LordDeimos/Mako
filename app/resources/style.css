@@ -16,14 +16,13 @@
 
 #reader>div{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #reader>div>.nav{
     font-size: 48px;
     transition-duration: 0.4s;
     display: flex;
-    justify-content: center;
     align-self: center;
 }
 
@@ -39,7 +38,6 @@
 }
 
 .page{
-    float: left;
     display: flex;
     flex: 1 1 auto;
     max-height: 100%;
@@ -101,6 +99,21 @@
 
 .thumb {
     width: 5em;
+}
+
+.edit-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.side-by-side{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.hidden{
+    opacity: 0;
 }
 
 /* #endregion */
