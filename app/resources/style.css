@@ -118,6 +118,22 @@
 
 /* #endregion */
 
+/* #region About*/
+
+.about-text{
+    padding: 5% 0%;
+}
+
+.about-foot{
+    background:whitesmoke;
+}
+.links{
+    display: flex;
+    justify-content: center;
+}
+
+/* #endregion*/
+
 /* #region Title*/
 
 #titlebar {
@@ -184,6 +200,7 @@ img.link:hover {
 
 .weblink {
     font-size: 24px;
+    padding: 0.5%;
 }
 
 a {
