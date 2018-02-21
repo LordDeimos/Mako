@@ -1,4 +1,5 @@
 const remote = require('electron').remote;
+const shell = remote.shell;
 var dialog = remote.dialog;
 var process = remote.process;
 var ipcRenderer = require('electron').ipcRenderer;
