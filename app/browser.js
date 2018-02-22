@@ -123,3 +123,13 @@ var getThumb = function (comic) {
         });
     });
 }
+
+var saveBook = function(book){
+    ArchiveManager.Append(['info.json'],[Buffer.from(JSON.stringify(book))],book.directory+book.filename+'.'+book.type,function(err,files){
+        if(err){
+            console.error(err);
+            return;
+        }
+        console.log("Sucess!");
+    });
+}
