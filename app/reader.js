@@ -14,8 +14,30 @@ var bookList = [];
 const comicTypes = ['cbz', 'cb7', 'cbt'];
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
+class Pipeline {
+    constructor(){
+        this.queue = [];
+    }
 
-var pseudoQueue = [];
+    addToQueue(f){
+        this.queue.push(f);
+    };
+
+    next(){
+        var f = this.queue.pop();
+        if(typeof f==='function'){
+            f();
+        }
+    };
+
+    start(){
+        this.next();
+    };
+}
+var pipeline = new Pipeline();
+setInterval(function(){
+    pipeline.next();
+},500);
 
 /**
  * @function last
@@ -26,7 +48,7 @@ Array.prototype.last = function () {
     return this[this.length - 1];
 }
 
-function sortEntry(a,b){
+function sortEntry(a, b) {
     var nameA = a.name.toLowerCase();
     var nameB = b.name.toLowerCase();
     if (nameA < nameB) {
@@ -72,11 +94,11 @@ var loadBook = function (book) {
                             }
                             currentBook.pages[j] = "data:image/jpg;base64," + data.toString('base64');
                             //currentBook.pages.push('resources/icon.png');
-                            if (j===0) {
+                            if (j === 0) {
                                 $('#pages>figure>img').attr('src', currentBook.pages[0]);
                             }
                             ++currentBook.totalPages;
-                            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
+                            $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
                         });
                     }(i);
                 }
@@ -101,7 +123,7 @@ var left = function () {
         $('#pages>figure>img').fadeOut(function () {
             currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage + 1 : currentBook.currentPage - 1;
             $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
-            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
+            $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
             $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })
@@ -123,7 +145,7 @@ var right = function () {
         $('#pages>figure>img').fadeOut(function () {
             currentBook.currentPage = (currentBook.rtol) ? currentBook.currentPage - 1 : currentBook.currentPage + 1;
             $('#pages>figure>img').attr('src', currentBook.pages[currentBook.currentPage]);
-            $('#pageCount').text((currentBook.currentPage+1) + '/' + currentBook.totalPages);
+            $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
             $('#pages>figure>img').fadeIn(function () {
                 animating = false;
             })

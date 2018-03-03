@@ -59,27 +59,24 @@ var loadDir = function () {
                             author:""
                         };
                         var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
-                        pseudoQueue[i]='Reading: '+comic.filename;
-                        ++i;
-                        return function(j){
-                            ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
-                                pseudoQueue.splice(j,1);
-                                var info = (data) ? JSON.parse(data) : {};
-                                Object.assign(comic, info);
-                                if (comic.title === "") {
-                                    if (comic.series === "" || comic.number === -1) {
-                                        comic.title = comic.filename;
-                                    } else {
-                                        comic.title = comic.series + " #" + comic.number;
-                                    }
+                        pipeline.addToQueue(()=>{ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
+                            var info = (data) ? JSON.parse(data) : {};
+                            Object.assign(comic, info);
+                            if (comic.title === "") {
+                                if (comic.series === "" || comic.number === -1) {
+                                    comic.title = comic.filename;
+                                } else {
+                                    comic.title = comic.series + " #" + comic.number;
                                 }
-                                comic.loading = true;
-                                comic.id = "comic" + books.bookList.length;
-                                books.bookList.push(comic)
-                                books.bookList.sort(sortBook);
+                            }
+                            comic.loading = true;
+                            comic.id = "comic" + (Math.ceil(Math.random()*1000)).toString();
+                            books.bookList.push(comic)
+                            books.bookList.sort(sortBook);
+                            pipeline.addToQueue(()=>{
                                 getThumb(comic);
                             });
-                        }(i);
+                        })});
                     }
                 }
             });
@@ -124,7 +121,7 @@ var getThumb = function (comic) {
 
             $(`#${comic.id}>figure>svg`).remove();
             $(`#${comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
-            //console.log($(`#${comic.id}`));
+            console.log(comic.title);
         });
     });
 }
