@@ -23,6 +23,21 @@ var openWebsite = function (page) {
 };
 
 
+var openAbout = function(){
+    $('#about').addClass('is-active');
+    $('#about').animate({
+            opacity: 1
+    }, '0.4s');
+}
+
+var closeAbout = function(){
+    $('#about').animate({
+        opacity: 0
+    }, '0.4s', function () {
+        $('#about').removeClass('is-active');
+    });
+}
+
 var closeEdit = function () {
     $('#edit').animate({
         opacity: 0

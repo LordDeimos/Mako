@@ -16,9 +16,11 @@
         <script src="./reader.js"></script>
         <script src="./window_control.js"></script>
         <script src="./browser.js"></script>
-        <script>
-                type = "text/javascript" >
-                        require('devtron').install();
+        <script type="text/javascript">
+                setInterval(function(){
+                        console.log(pseudoQueue);
+                },10000);
+                require('devtron').install();
         </script>
 </head>
 
@@ -42,23 +44,22 @@
         <div id='parent' class=''>
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
-                        <button class="button" onclick="$('#about').addClass('is-active');">About</button>
+                        <button class="button" onclick="openAbout()">About</button>
                 </div>
-                <div id="about" class="modal">
-                        <div class="modal-background" onclick="$('#about').removeClass('is-active');"></div>
+                <div id="about" class="hidden modal">
+                        <div class="modal-background" onclick="closeAbout()"></div>
                         <div class="modal-content">
                                 <div class="box">
                                         <div class="edit-header">
                                                 <p class="title">About Mako</p>
-                                                <button class="delete" aria-label="close" onclick="$('#about').removeClass('is-active');"></button>
+                                                <button class="delete" aria-label="close" onclick="closeAbout()"></button>
                                         </div>
                                         <p class="about-text">
                                                 Its mostly for learing electron, but maybe will become a viable comic reader for release to the public
                                         </p>
                                         <div class="content has-text-centered has-text-grey-light about-foot">
                                                 <div class="links">
-                                                        <a onclick="openWebsite('https://github.com/LordDeimos/Mako')" class="weblink link tooltip"
-                                                                data-tooltip="Github Repo">
+                                                        <a onclick="openWebsite('https://github.com/LordDeimos/Mako')" class="weblink link tooltip" data-tooltip="Github Repo">
                                                                 <i class="fab fa-github link" id='gitfore'></i>
                                                         </a>
                                                         <a class="weblink link tooltip" data-tooltip="Website" onclick="openWebsite()">

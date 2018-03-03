@@ -15,6 +15,8 @@ const comicTypes = ['cbz', 'cb7', 'cbt'];
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
 
+var pseudoQueue = [];
+
 /**
  * @function last
  * @description Getter for the last array element

@@ -43,6 +43,7 @@ var loadDir = function () {
             }
 
             files.sort();
+            var i = -1;
             files.forEach(function (file) {
                 if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
                     if (comicTypes.includes(file.split('.').last())) {
@@ -58,23 +59,27 @@ var loadDir = function () {
                             author:""
                         };
                         var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
-
-                        ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
-                            var info = (data) ? JSON.parse(data) : {};
-                            Object.assign(comic, info);
-                            if (comic.title === "") {
-                                if (comic.series === "" || comic.number === -1) {
-                                    comic.title = comic.filename;
-                                } else {
-                                    comic.title = comic.series + " #" + comic.number;
+                        pseudoQueue[i]='Reading: '+comic.filename;
+                        ++i;
+                        return function(j){
+                            ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
+                                pseudoQueue.splice(j,1);
+                                var info = (data) ? JSON.parse(data) : {};
+                                Object.assign(comic, info);
+                                if (comic.title === "") {
+                                    if (comic.series === "" || comic.number === -1) {
+                                        comic.title = comic.filename;
+                                    } else {
+                                        comic.title = comic.series + " #" + comic.number;
+                                    }
                                 }
-                            }
-                            comic.loading = true;
-                            comic.id = "comic" + books.bookList.length;
-                            books.bookList.push(comic)
-                            books.bookList.sort(sortBook);
-                            getThumb(comic);
-                        });
+                                comic.loading = true;
+                                comic.id = "comic" + books.bookList.length;
+                                books.bookList.push(comic)
+                                books.bookList.sort(sortBook);
+                                getThumb(comic);
+                            });
+                        }(i);
                     }
                 }
             });
@@ -125,6 +130,7 @@ var getThumb = function (comic) {
 }
 
 var saveBook = function(book){
+    console.log("Saving "+book.title);
     ArchiveManager.Append(['info.json'],[Buffer.from(JSON.stringify(book))],book.directory+book.filename+'.'+book.type,function(err,files){
         if(err){
             console.error(err);
