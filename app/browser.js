@@ -58,25 +58,27 @@ var loadDir = function () {
                             title: "",
                             author:""
                         };
-                        var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
-                        pipeline.addToQueue(()=>{ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
-                            var info = (data) ? JSON.parse(data) : {};
-                            Object.assign(comic, info);
-                            if (comic.title === "") {
-                                if (comic.series === "" || comic.number === -1) {
-                                    comic.title = comic.filename;
-                                } else {
-                                    comic.title = comic.series + " #" + comic.number;
+                        //var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
+                        pipeline.addToQueue((comic)=>{
+                            ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
+                                var info = (data) ? JSON.parse(data) : {};
+                                Object.assign(comic, info);
+                                if (comic.title === "") {
+                                    if (comic.series === "" || comic.number === -1) {
+                                        comic.title = comic.filename;
+                                    } else {
+                                        comic.title = comic.series + " #" + comic.number;
+                                    }
                                 }
-                            }
-                            comic.loading = true;
-                            comic.id = "comic" + (Math.ceil(Math.random()*1000)).toString();
-                            books.bookList.push(comic)
-                            books.bookList.sort(sortBook);
-                            pipeline.addToQueue(()=>{
+                                comic.loading = true;
+                                comic.id = "comic" + (Math.ceil(Math.random()*1000)).toString(34);
+                                console.log(`Adding ${comic.filename}, with id: ${comic.id}`);
+                                reader.bookList.push(comic);
+                                reader.bookList.sort(sortBook);
+                                pipeline.remove();
                                 getThumb(comic);
-                            });
-                        })});
+                            })
+                        },comic);
                     }
                 }
             });
@@ -102,37 +104,55 @@ var createBook = function (comic, i) {
 var getThumb = function (comic) {
     var file = comic.directory + comic.filename + "." + comic.type;
     var i = 0;
-    ArchiveManager.Content(file, function (err, contents) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        var entry = contents[i];
-        while (!fileTypes.includes(entry.name.split('.').last() || entry.directory)) {
-            i = i + 1;
-            entry = contents[i];
-        }
-        var data = ArchiveManager.Read(entry.name, file, function (err, data) {
+    pipeline.addToQueue((args)=>{
+        console.log("Looking for Thumbs in "+args.comic.title);
+        ArchiveManager.Content(args.file, function (err, contents) {
             if (err) {
                 console.error(err);
                 return;
             }
-            comic.loading = false;
-
-            $(`#${comic.id}>figure>svg`).remove();
-            $(`#${comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
-            console.log(comic.title);
+            var entry = contents[i];
+            while (!fileTypes.includes(entry.name.split('.').last() || entry.directory)) {
+                i = i + 1;
+                entry = contents[i];
+            }
+            pipeline.addToQueue((args)=>{
+                console.log("Loading Thumb for "+args.comic.title);
+                ArchiveManager.Read(args.entry.name, file, function (err, data) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    args.comic.loading = false;
+                    args.comic.thumb = "data:image/jpg;base64," + data.toString('base64');
+                    $(`#${args.comic.id}>figure>svg`).remove();
+                    //$(`#${args.comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
+                    console.log(`Adding Thumb to ${args.comic.id}`);
+                    pipeline.remove();
+                });
+            },{
+                comic:comic,
+                file:file,
+                entry:entry
+            });            
+            pipeline.remove();
         });
+    },{
+        comic:comic,
+        file:file
     });
 }
 
 var saveBook = function(book){
     console.log("Saving "+book.title);
-    ArchiveManager.Append(['info.json'],[Buffer.from(JSON.stringify(book))],book.directory+book.filename+'.'+book.type,function(err,files){
-        if(err){
-            console.error(err);
-            return;
-        }
-        console.log("Sucess!");
+    pipeline.addToQueue(()=>{
+        ArchiveManager.Append(['info.json'],[Buffer.from(JSON.stringify(book))],book.directory+book.filename+'.'+book.type,function(err,files){
+            if(err){
+                console.error(err);
+                return;
+            }
+            console.log("Sucess!");            
+            pipeline.remove();
+        });
     });
 }

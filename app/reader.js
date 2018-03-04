@@ -14,30 +14,48 @@ var bookList = [];
 const comicTypes = ['cbz', 'cb7', 'cbt'];
 const fileTypes = ['png', 'jpg', 'gif', 'bmp', 'jpeg', 'tiff'];
 var totalPages = 0;
-class Pipeline {
-    constructor(){
+
+/**
+ * @class WorkerQueue
+ * @description Used because I found no way to view what was currently being done by archive-manager
+ */
+class WorkerQueue {
+    constructor() {
         this.queue = [];
+        this.values = [];
+        this.processing = false;
     }
 
-    addToQueue(f){
+    addToQueue(f,data) {
         this.queue.push(f);
-    };
-
-    next(){
-        var f = this.queue.pop();
-        if(typeof f==='function'){
-            f();
+        this.values.push(data);
+        if(!this.processing){
+            this.start();
         }
     };
 
-    start(){
+    next() {
+        if(!this.processing){
+            var f = this.queue.pop();
+            var args = this.values.pop();
+            if (typeof f === 'function') {
+                this.processing=true;
+                f(args);
+            }
+        }
+    };
+
+    remove() {
+        this.processing=false;
+        this.next();
+    };
+
+    start() {
         this.next();
     };
 }
-var pipeline = new Pipeline();
-setInterval(function(){
-    pipeline.next();
-},500);
+
+var pipeline = new WorkerQueue();
 
 /**
  * @function last
@@ -79,32 +97,38 @@ var loadBook = function (book) {
     currentBook.currentPage = 0;
 
     var file = book.directory + book.filename + "." + book.type;
-    ArchiveManager.Content(file, function (err, files) {
-        var i = -1;
-        files.sort(sortEntry).forEach(function (entry) {
-            //++i;
-            if (!entry.directory) {
-                if (fileTypes.includes(entry.name.split('.').last())) {
-                    ++i;
-                    return function (j) {
-                        ArchiveManager.Read(entry.name, file, function (err, data) {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-                            currentBook.pages[j] = "data:image/jpg;base64," + data.toString('base64');
-                            //currentBook.pages.push('resources/icon.png');
-                            if (j === 0) {
-                                $('#pages>figure>img').attr('src', currentBook.pages[0]);
-                            }
-                            ++currentBook.totalPages;
-                            $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
+    pipeline.addToQueue((file) => {
+        ArchiveManager.Content(file, function (err, files) {
+            var i = -1;
+            files.sort(sortEntry).forEach(function (entry) {
+                if (!entry.directory) {
+                    if (fileTypes.includes(entry.name.split('.').last())) {
+                        ++i;
+                        pipeline.addToQueue((args) => {
+                                ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
+                                    if (err) {
+                                        console.error(err);
+                                        return;
+                                    }
+                                    currentBook.pages[args.j] = "data:image/jpg;base64," + data.toString('base64');
+                                    if (args.j === 0) {
+                                        $('#pages>figure>img').attr('src', currentBook.pages[0]);
+                                    }
+                                    ++currentBook.totalPages;
+                                    $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
+                                    pipeline.remove();
+                                });
+                        },{
+                            file:file,
+                            j:i,
+                            entry:entry
                         });
-                    }(i);
+                    }
                 }
-            }
+            });
+            pipeline.remove();
         });
-    });
+    },file);
 };
 
 var animating = false;

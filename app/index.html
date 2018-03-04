@@ -135,46 +135,44 @@
                                         <div class="book box" v-for="comic in bookList" v-bind:id="comic.id" v-on:click="openBook(comic)" @contextmenu.prevent="editBook(comic)">
                                                 <figure class='image'>
                                                         <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading"></i>
-                                                        <img class="thumb">
+                                                        <img class="thumb" v-bind:src="comic.thumb">
                                                 </figure>
                                                 {{ comic.title }}
                                         </div>
                                 </div>
                         </div>
-                        <div id='reader' class="box" v-if="reading">
-                                <header class="closeReader" onclick="closeBook()" onmouseenter="$('#reader').css('top', '10px') " onmouseleave="$('#reader').css('top', '0px') ">
-                                </header>
-                                <div id="readerMain">
-                                        <a class="nav prev" onclick="left()">
-                                                <i class="fas fa-caret-left"></i>
-                                        </a>
-                                        <div id="pages">
-                                                <figure id="current-page" class="image page">
-                                                        <img>
-                                                </figure>
+
+                        <transition name="fade">
+                                <div id='reader' class="box" v-if="reading">
+                                        <header class="closeReader" onclick="closeBook()" onmouseenter="$('#reader').css('top', '10px') " onmouseleave="$('#reader').css('top', '0px') ">
+                                        </header>
+                                        <div id="readerMain">
+                                                <a class="nav prev" onclick="left()">
+                                                        <i class="fas fa-caret-left"></i>
+                                                </a>
+                                                <div id="pages">
+                                                        <figure id="current-page" class="image page">
+                                                                <img>
+                                                        </figure>
+                                                </div>
+                                                <a class="nav next" onclick="right()">
+                                                        <i class="fas fa-caret-right"></i>
+                                                </a>
                                         </div>
-                                        <a class="nav next" onclick="right()">
-                                                <i class="fas fa-caret-right"></i>
-                                        </a>
+                                        <footer>
+                                                <div id="pageCount" class="content has-text-centered has-text-grey-light">
+                                                </div>
+                                        </footer>
                                 </div>
-                                <footer>
-                                        <div id="pageCount" class="content has-text-centered has-text-grey-light">
-                                        </div>
-                                </footer>
-                        </div>
+                        </transition>
                 </div>
         </div>
         <script type="text/javascript">
                 //Vue Scripts
                 var reader = new Vue({
-                        el: '#reader',
+                        el: '#bookStuff',
                         data: {
-                                reading: false
-                        }
-                });
-                var books = new Vue({
-                        el: '#books',
-                        data: {
+                                reading: false,
                                 bookList: []
                         },
                         methods: {
@@ -201,10 +199,18 @@
                                                 opacity: 1
                                         }, '0.4s');
                                         $('#save-book').click(function () {
-                                                var newTitle = ($('#title').val() !== "") ? $('#title').val() : $('#title').attr('placeholder');
-                                                var newAuthor = ($('#author').val() !== "") ? $('#author').val() : $('#author').attr('placeholder');
-                                                var newSeries = ($('#series').val() !== "") ? $('#series').val() : $('#series').attr('placeholder');
-                                                var newNumber = ($('#number').val() !== "") ? $('#number').val() : $('#number').attr('placeholder');
+                                                var newTitle = ($('#title').val() !== "") 
+                                                        ? $('#title').val()
+                                                        : $('#title').attr('placeholder');
+                                                var newAuthor = ($('#author').val() !== "")
+                                                        ? $('#author').val()
+                                                        : $('#author').attr('placeholder');
+                                                var newSeries = ($('#series').val() !== "")
+                                                        ? $('#series').val()
+                                                        : $('#series').attr('placeholder');
+                                                var newNumber = ($('#number').val() !== "")
+                                                        ? $('#number').val()
+                                                        : $('#number').attr('placeholder');
                                                 var newDirection = ($('#rtol').is(":checked"));
                                                 Object.assign(book, {
                                                         title: newTitle,

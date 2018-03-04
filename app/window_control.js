@@ -1,6 +1,11 @@
 var closeWindow = function () {
     var window = remote.getCurrentWindow();
-    window.close();
+    if(!pipeline.processing){
+        window.close();
+    }
+    else{
+        console.log("There are queued items, please wait until they are done!");
+    }
 };
 
 var maximiseWindow = function () {

@@ -1,5 +1,12 @@
-
 /* #region Reader*/
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.4s ease-out;
+  }
+  
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 
 #reader {
     margin: 1%;
@@ -7,60 +14,61 @@
     flex-direction: column;
     z-index: 1;
     position: absolute;
-    top:0;
-    left:0;
-    right:0;
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
     transition-duration: 0.4s;
 }
 
-#reader>div{
+#reader>div {
     display: flex;
     justify-content: space-between;
 }
 
-#reader>div>.nav{
+#reader>div>.nav {
     font-size: 48px;
     transition-duration: 0.4s;
     display: flex;
     align-self: center;
 }
 
-#reader>div>.nav:hover{
+#reader>div>.nav:hover {
     background-color: rgba(128, 128, 128, 0.5);
     border-radius: 5px;
 }
 
-#pages{    
+#pages {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.page{
+.page {
     display: flex;
     flex: 1 1 auto;
     max-height: 100%;
 }
+
 .page>img {
     object-fit: contain;
 }
 
-.closeReader{
+.closeReader {
     position: absolute;
-    top:0;
-    left:0;
-    right:0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 5%;
     transition-duration: 0.4s;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(128,128,128,0.5)), to(rgba(128,128,128,0)), color-stop(0,rgb(128,128,128)));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(128, 128, 128, 0.5)), to(rgba(128, 128, 128, 0)), color-stop(0, rgb(128, 128, 128)));
     opacity: 0;
     z-index: 2;
 }
 
-.closeReader:hover{
+.closeReader:hover {
     opacity: 1;
-    border-radius: 5px 5px 0px 0px; 
+    border-radius: 5px 5px 0px 0px;
 }
 
 /* #endregion */
@@ -89,8 +97,9 @@
     display: inline-block;
     vertical-align: top;
 }
-.book:hover{    
-    box-shadow: 0px 0px 5px 5px rgba(100,0,200,0.5);
+
+.book:hover {
+    box-shadow: 0px 0px 5px 5px rgba(100, 0, 200, 0.5);
 }
 
 .loading {
@@ -101,18 +110,19 @@
     width: 5em;
 }
 
-.edit-header{
+.edit-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.side-by-side{
+.side-by-side {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.hidden{
+
+.hidden {
     opacity: 0;
 }
 
@@ -120,14 +130,15 @@
 
 /* #region About*/
 
-.about-text{
+.about-text {
     padding: 5% 0%;
 }
 
-.about-foot{
-    background:whitesmoke;
+.about-foot {
+    background: whitesmoke;
 }
-.links{
+
+.links {
     display: flex;
     justify-content: center;
 }
@@ -215,7 +226,6 @@ a {
     margin: 1%;
     flex: 0 1 auto;
 }
-
 
 #bookStuff {
     display: flex;
