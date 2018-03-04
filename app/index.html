@@ -134,7 +134,7 @@
                                 <div id='books'>
                                         <div class="book box" v-for="comic in bookList" v-bind:id="comic.id" v-on:click="openBook(comic)" @contextmenu.prevent="editBook(comic)">
                                                 <figure class='image'>
-                                                        <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading"></i>
+                                                        <i class="fas fa-circle-notch fa-spin loading" v-if="comic.loading" v-bind:name="comic.id"></i>
                                                         <img class="thumb" v-bind:src="comic.thumb">
                                                 </figure>
                                                 {{ comic.title }}

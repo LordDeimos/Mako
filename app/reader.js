@@ -29,15 +29,15 @@ class WorkerQueue {
     addToQueue(f,data) {
         this.queue.push(f);
         this.values.push(data);
-        if(!this.processing){
+        if(this.processing===false){
             this.start();
         }
     };
 
     next() {
-        if(!this.processing){
-            var f = this.queue.pop();
-            var args = this.values.pop();
+        if(this.processing===false){
+            var f = this.queue.shift();
+            var args = this.values.shift();
             if (typeof f === 'function') {
                 this.processing=true;
                 f(args);
@@ -56,6 +56,9 @@ class WorkerQueue {
 }
 
 var pipeline = new WorkerQueue();
+setInterval(()=>{
+    console.log(pipeline.values);
+},500);
 
 /**
  * @function last
@@ -106,6 +109,7 @@ var loadBook = function (book) {
                         ++i;
                         pipeline.addToQueue((args) => {
                                 ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
+                                    console.log(args.j);
                                     if (err) {
                                         console.error(err);
                                         return;
