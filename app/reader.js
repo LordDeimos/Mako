@@ -23,12 +23,15 @@ class WorkerQueue {
     constructor() {
         this.queue = [];
         this.values = [];
+        this.labels = [];
         this.processing = false;
+        this.current = "";
     }
 
-    addToQueue(f,data) {
+    addToQueue(f,data,label) {
         this.queue.push(f);
         this.values.push(data);
+        this.labels.push(label);
         if(this.processing===false){
             this.start();
         }
@@ -38,6 +41,7 @@ class WorkerQueue {
         if(this.processing===false){
             var f = this.queue.shift();
             var args = this.values.shift();
+            this.current = this.labels.shift();
             if (typeof f === 'function') {
                 this.processing=true;
                 f(args);
@@ -49,6 +53,25 @@ class WorkerQueue {
         this.processing=false;
         this.next();
     };
+
+    clear(label){
+        if(label===undefined){
+            this.queue = [];
+            this.values = [];
+            this.labels = [];
+            this.processing = false;
+            this.current = "";
+        }
+        else{
+            var i = this.labels.indexOf(label);
+            while(i!==-1){
+                this.queue.splice(i,1);
+                this.values.splice(i,1);
+                this.labels.splice(i,1);
+                i = this.labels.indexOf(label);
+            }
+        }
+    }
 
     start() {
         this.next();
@@ -97,6 +120,7 @@ var loadBook = function (book) {
     currentBook.currentPage = 0;
 
     var file = book.directory + book.filename + "." + book.type;
+    pipeline.clear("Read Page");
     pipeline.addToQueue((file) => {
         ArchiveManager.Content(file, function (err, files) {
             var i = -1;
@@ -106,7 +130,6 @@ var loadBook = function (book) {
                         ++i;
                         pipeline.addToQueue((args) => {
                                 ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
-                                    console.log(args.j);
                                     if (err) {
                                         console.error(err);
                                         return;
@@ -123,13 +146,13 @@ var loadBook = function (book) {
                             file:file,
                             j:i,
                             entry:entry
-                        });
+                        },"Read Page");
                     }
                 }
             });
             pipeline.remove();
         });
-    },file);
+    },file,'Content Pages');
 };
 
 var animating = false;

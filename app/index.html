@@ -41,7 +41,7 @@
                                 <div class="modal-content box">
                                         <div class="edit-header">
                                                 <p class="title">Are You Sure You Want To Exit?</p>
-                                                <button class="delete" aria-label="close" onclick="closeAbout()"></button>
+                                                <button class="delete" aria-label="close" onclick="closeModal($('#close-warning'))"></button>
                                         </div>
                                         <p class="about-text">There are queued things still running, I am not responsible for loss of data!</p>
                                         <button class="button is-primary" onclick="closeModal($('#close-warning'))">No</button>
@@ -54,6 +54,16 @@
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
                         <button class="button" onclick="openModal($('#about'))">About</button>
+                        <div class="select">
+                                <select id="sort-option" onchange="sortList()">
+                                        <option selected>Sort By..</option>
+                                        <option>Title</option>
+                                        <option>Author</option>
+                                        <option>Series</option>
+                                        <option>File Name</option>
+                                </select>
+
+                        </div>
                 </div>
                 <div id="about" class="hidden modal">
                         <div class="modal-background" onclick="closeModal($('#about'))"></div>
