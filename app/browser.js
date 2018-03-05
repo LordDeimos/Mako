@@ -67,6 +67,17 @@ var sortBookByFileName = function (a, b) {
     return 0;
 }
 
+var sortBookByNumber = function (a, b) {
+    var A = (a.number === -1) ? a.title.toLowerCase() : a.number.toString();
+    var B = (b.number === -1) ? b.title.toLowerCase() : b.number.toString();
+    if (A < B) {
+        return -1;
+    } else if (B < A) {
+        return 1;
+    }
+    return 0;
+}
+
 var sortBook = sortBookByTitle;
 
 /**
@@ -216,6 +227,9 @@ var sortList = function () {
             break;
         case "Series":
             sortBook = sortBookBySeries;
+            break;
+            case "Number":
+            sortBook = sortBookByNumber;
             break;
         default:
             sortBook = sortBookByTitle;
