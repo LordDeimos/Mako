@@ -125,7 +125,7 @@ var getThumb = function (comic) {
                     }
                     args.comic.loading = false;
                     args.comic.thumb = "data:image/jpg;base64," + data.toString('base64');
-                    $(`#${args.comic.id}>figure>svg`).remove();
+                    //$(`#${args.comic.id}>figure>svg`).removeClass('is-loading');
                     //$(`#${args.comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
                     console.log(`Adding Thumb to ${args.comic.id}`);
                     pipeline.remove();

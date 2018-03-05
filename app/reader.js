@@ -56,9 +56,6 @@ class WorkerQueue {
 }
 
 var pipeline = new WorkerQueue();
-setInterval(()=>{
-    console.log(pipeline.values);
-},500);
 
 /**
  * @function last

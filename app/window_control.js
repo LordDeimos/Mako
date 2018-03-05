@@ -4,7 +4,7 @@ var closeWindow = function () {
         window.close();
     }
     else{
-        console.log("There are queued items, please wait until they are done!");
+        openModal($('#close-warning'));
     }
 };
 
@@ -28,26 +28,18 @@ var openWebsite = function (page) {
 };
 
 
-var openAbout = function(){
-    $('#about').addClass('is-active');
-    $('#about').animate({
+var openModal = function(element){
+    element.addClass('is-active');
+    element.animate({
             opacity: 1
     }, '0.4s');
 }
 
-var closeAbout = function(){
-    $('#about').animate({
+var closeModal = function(element){    
+    element.animate({
         opacity: 0
     }, '0.4s', function () {
-        $('#about').removeClass('is-active');
-    });
-}
-
-var closeEdit = function () {
-    $('#edit').animate({
-        opacity: 0
-    }, '0.4s', function () {
-        $('#edit').removeClass('is-active');
+        element.removeClass('is-active');
     });
 }
 
