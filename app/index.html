@@ -23,6 +23,10 @@
                 else{
                         Vue = require('vue/dist/vue.min.js');
                 }
+                require('./components/about.js');
+                require('./components/close_warning.js');
+                require('./components/edit.js');
+                
         </script>
 </head>
 
@@ -44,6 +48,11 @@
                 </div>
         </div>
         <div id='parent' class=''>
+                <div id="modals" >
+                        <about-modal :enabled="showAbout"></about-modal>
+                        <close-warning-modal :enabled="showCloseWarning"></close-warning-modal>
+                        <edit-modal :enabled="editting" :book="bookEdit"></edit-modal>
+                </div>
                 <div id="controls" class="box">
                         <button class="button" onclick="loadDir()">Load Books</button>
                         <button class="button" onclick="reader.showAbout=true">About</button>
@@ -65,111 +74,6 @@
                                 </div>
                         </div>
                 </div>
-                <transition id="modals" name="fade">
-                                <div id="about" v-if="showAbout" class="modal" v-bind:class="{'is-active':showAbout}">
-                                                <div class="modal-background" onclick="reader.showAbout=false"></div>
-                                                <div class="modal-content">
-                                                    <div class="box">
-                                                        <div class="edit-header">
-                                                            <p class="title">About Mako</p>
-                                                            <button class="delete" aria-label="close" onclick="reader.showAbout=false"></button>
-                                                        </div>
-                                                        <p class="about-text">
-                                                            Its mostly for learing electron, but maybe will become a viable comic reader for release to the public
-                                                        </p>
-                                                        <div class="content has-text-centered has-text-grey-light about-foot">
-                                                            <div class="links">
-                                                                <a onclick="openWebsite('https://github.com/LordDeimos/Mako')" class="weblink link tooltip" data-tooltip="Github Repo">
-                                                                    <i class="fab fa-github link" id='gitfore'></i>
-                                                                </a>
-                                                                <a class="weblink link tooltip" data-tooltip="Website" onclick="openWebsite()">
-                                                                    <i class="fas fa-globe" id='web'></i>
-                                                                </a>
-                                                                <a class="weblink link tooltip" data-tooltip="Icons by FontAwesome" onclick="openWebsite('https://fontawesome.com/')">
-                                                                    <i class="fab fa-font-awesome-flag link"></i>
-                                                                </a>
-                                                                <a onclick="openWebsite('https://bulma.io/')" class="weblink link">
-                                                                    <img src="resources/made-with-bulma--semiwhite.png" alt="Made with Bulma" width="128" height="24" class="link">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <p id="current-version">
-                                                                    0.1.1
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                        <div id="close-warning" v-if="showCloseWarning" class="modal" v-bind:class="{'is-active':showCloseWarning}">
-                                <div class="modal-background"></div>
-                                <div class="modal-content box">
-                                        <div class="edit-header">
-                                                <p class="title">Are You Sure You Want To Exit?</p>
-                                                <button class="delete" aria-label="close" onclick="reader.showCloseWarning=false"></button>
-                                        </div>
-                                        <p class="about-text">There are queued things still running, I am not responsible for loss of data!</p>
-                                        <button class="button is-primary" onclick="reader.showCloseWarning=false">No!, Save My Data!</button>
-                                        <button class="button is-danger" onclick="remote.getCurrentWindow().close()">Yes!, I Want to Destroy My Library!</button>
-                                </div>
-                        </div>
-                        <div id="edit" class="modal" v-bind:class="{ 'is-active':editting }" v-if="editting">
-                                <div class="modal-background" onclick="reader.editting=false"></div>
-                                <div class="modal-content box">
-                                        <div class="edit-header">
-                                                <p class="title">Edit Book</p>
-                                                <button class="delete" aria-label="close" onclick="reader.editting=false"></button>
-                                        </div>
-                                        <div class="field">
-                                                <label class="label">Title</label>
-                                                <div class="control">
-                                                        <input id="title" class="input" type="text" onkeypress="handleSubmit(event)" v-bind:placeholder="bookEdit.title">
-                                                </div>
-                                        </div>
-                                        <div class="field">
-                                                <label class="label">Author</label>
-                                                <div class="control">
-                                                        <input id="author" class="input" type="text" onkeypress="handleSubmit(event)" v-bind:placeholder="bookEdit.author">
-                                                </div>
-                                        </div>
-                                        <div class="side-by-side">
-                                                <div class="field is-horizontal">
-                                                        <div class="field-label is-normal">
-                                                                <label class="label">Series</label>
-                                                        </div>
-                                                        <div class="field-body">
-                                                                <div class="control">
-                                                                        <input id="series" class="input" type="text" onkeypress="handleSubmit(event)" v-bind:placeholder="bookEdit.series">
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                                <div class="field is-horizontal">
-                                                        <div class="field-label is-normal">
-                                                                <label class="label">Number</label>
-                                                        </div>
-                                                        <div class="field-body">
-                                                                <div class="control">
-                                                                        <input id="number" class="input" type="number" min=0 onkeypress="handleSubmit(event)" v-bind:placeholder="bookEdit.number||0">
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                        <div class="field">
-                                                <label class="checkbox">
-                                                        <input id="rtol" type="checkbox" onkeypress="handleSubmit(event)" v-bind:checked="bookEdit.rtol"> Right-To-Left
-                                                </label>
-                                        </div>
-                                        <div class="field">
-                                                <label class="checkbox">
-                                                        <input id="read" type="checkbox" onkeypress="handleSubmit(event)" v-bind:checked="bookEdit.read"> Read?
-                                                </label>
-                                        </div>
-                                        <div class="control">
-                                                <button id="save-book" class="button is-primary" v-on:click="saveEdit()">Save</button>
-                                        </div>
-                                </div>
-                        </div>
-                </transition>
                 <div id="bookStuff">
                         <div id='explorer' class="box">
                                 <div id='books'>

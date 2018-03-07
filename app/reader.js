@@ -27,9 +27,9 @@ class WorkerQueue {
     }
 
     addToQueue(newItem) {
-        var sortQueue = function(a,b){
-            var A=a.priority;
-            var B=b.priority;
+        var sortQueue = function (a, b) {
+            var A = a.priority;
+            var B = b.priority;
             if (A < B) {
                 return -1;
             } else if (B < A) {
@@ -37,8 +37,8 @@ class WorkerQueue {
             }
             return 0;
         }
-        if(newItem.priority===undefined){
-            newItem.priority=1;
+        if (newItem.priority === undefined) {
+            newItem.priority = 1;
         }
         this.queue.push(newItem);
         this.queue.sort(sortQueue);
@@ -131,38 +131,46 @@ var loadBook = function (book) {
 
     var file = book.directory + book.filename + "." + book.type;
     pipeline.clear("Read Page");
-    pipeline.addToQueue((file) => {
-        ArchiveManager.Content(file, function (err, files) {
-            var i = -1;
-            files.sort(sortEntry).forEach(function (entry) {
-                if (!entry.directory) {
-                    if (fileTypes.includes(entry.name.split('.').last())) {
-                        ++i;
-                        pipeline.addToQueue((args) => {
-                            ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
-                                if (err) {
-                                    console.error(err);
-                                    return;
-                                }
-                                currentBook.pages[args.j] = "data:image/jpg;base64," + data.toString('base64');
-                                if (args.j === 0) {
-                                    $('#pages>figure>img').attr('src', currentBook.pages[0]);
-                                }
-                                ++currentBook.totalPages;
-                                $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
-                                pipeline.remove();
+    pipeline.addToQueue({
+        f: (file) => {
+            ArchiveManager.Content(file, function (err, files) {
+                var i = -1;
+                files.sort(sortEntry).forEach(function (entry) {
+                    if (!entry.directory) {
+                        if (fileTypes.includes(entry.name.split('.').last())) {
+                            ++i;
+                            pipeline.addToQueue({
+                                f: (args) => {
+                                    ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
+                                        if (err) {
+                                            console.error(err);
+                                            return;
+                                        }
+                                        currentBook.pages[args.j] = "data:image/jpg;base64," + data.toString('base64');
+                                        if (args.j === 0) {
+                                            $('#pages>figure>img').attr('src', currentBook.pages[0]);
+                                        }
+                                        ++currentBook.totalPages;
+                                        $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
+                                        pipeline.remove();
+                                    });
+                                },
+                                args: {
+                                    file: file,
+                                    j: i,
+                                    entry: entry
+                                },
+                                label: "Read Page"
                             });
-                        }, {
-                            file: file,
-                            j: i,
-                            entry: entry
-                        }, "Read Page");
+                        }
                     }
-                }
+                });
+                pipeline.remove();
             });
-            pipeline.remove();
-        });
-    }, file, 'Content Pages');
+        },
+        args: file,
+        label: 'Content Pages'
+    });
 };
 
 var animating = false;
