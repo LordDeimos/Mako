@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
         <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.css" />
         <link rel="stylesheet" type="text/css" href="resources/bulma-tooltip.css" />
@@ -26,10 +25,12 @@
                 require('./components/about.js');
                 require('./components/close_warning.js');
                 require('./components/edit.js');
+                require('./components/reader.js');
+                require('./components/controls.js');
+                require('./components/explorer.js');
                 
         </script>
 </head>
-
 <body>
         <div id='titlebar'>
                 <div class="windowtitle">
@@ -53,69 +54,12 @@
                         <close-warning-modal :enabled="showCloseWarning"></close-warning-modal>
                         <edit-modal :enabled="editting" :book="bookEdit"></edit-modal>
                 </div>
-                <div id="controls" class="box">
-                        <button class="button" onclick="loadDir()">Load Books</button>
-                        <button class="button" onclick="reader.showAbout=true">About</button>
-                        <div class="field">
-                                <div class="control has-icons-left">
-                                        <div class="select">
-                                                <select id="sort-option" onchange="sortList()">
-                                                        <option selected>Sort By..</option>
-                                                        <option>Title</option>
-                                                        <option>Author</option>
-                                                        <option>Series</option>
-                                                        <option>File Name</option>
-                                                        <option>Number</option>
-                                                </select>
-                                        </div>
-                                        <div class="icon is-left">
-                                                <i class="fas fa-sort-amount-down"></i>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
+                <control-box></control-box>
                 <div id="bookStuff">
-                        <div id='explorer' class="box">
-                                <div id='books'>
-                                        <div class="book box" data-badge="" v-bind:class="{ badge:!comic.read, 'is-badge-warning':!comic.read }" v-for="comic in bookList"
-                                                v-bind:id="comic.id" v-on:click="openBook(comic)" @contextmenu.prevent="editBook(comic)">
-                                                <figure class='image is-large'>
-                                                        <span class="icon" v-if="comic.loading">
-                                                                <i class="fas fa-circle-notch fa-spin loading" v-bind:name="comic.id"></i>
-                                                        </span>
-                                                        <img class="thumb" v-bind:src="comic.thumb">
-                                                </figure>
-                                                {{ comic.title }}
-                                        </div>
-                                </div>
-                        </div>
-
-                        <transition name="fade">
-                                <div id='reader' class="box" v-if="reading">
-                                        <header class="closeReader" onclick="closeBook()" onmouseenter="$('#reader').css('top', '10px') " onmouseleave="$('#reader').css('top', '0px') ">
-                                        </header>
-                                        <div id="readerMain">
-                                                <a class="nav prev" onclick="left()">
-                                                        <i class="fas fa-caret-left"></i>
-                                                </a>
-                                                <div id="pages">
-                                                        <figure id="current-page" class="image page">
-                                                                <img>
-                                                        </figure>
-                                                </div>
-                                                <a class="nav next" onclick="right()">
-                                                        <i class="fas fa-caret-right"></i>
-                                                </a>
-                                        </div>
-                                        <footer>
-                                                <div id="pageCount" class="content has-text-centered has-text-grey-light">
-                                                </div>
-                                        </footer>
-                                </div>
-                        </transition>
+                        <explorer :books="bookList"></explorer>
+                        <reader :reading="reading"></reader>
                 </div>
         </div>
         <script src="./vue-scripts.js"></script>
 </body>
-
 </html>
