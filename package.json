@@ -30,15 +30,15 @@
         "node": ">=8"
     },
     "dependencies": {
-        "archive-manager": "^1.1.2",
+        "archive-manager": "^1.2.0",
         "bulma": "^0.6.2",
-        "electron": "^1.8.2",
         "jquery": "^3.3.1",
         "vue": "^2.5.13"
     },
     "devDependencies": {
         "bulma-extensions": "^1.0.1",
         "devtron": "^1.4.0",
+        "electron": "^1.8.3",
         "electron-builder": "^20.0.5"
     }
 }

@@ -1,9 +1,12 @@
+
+
 /**
  * @function clearExlorer
  * @description Resets the explorers list
  */
 var clearExplorer = function () {
-    books.bookList = [];
+    reader.bookList = [];
+    pipeline.clear("Add Book");
 };
 
 /**
@@ -102,21 +105,21 @@ var loadDir = function () {
             files.sort();
             var i = -1;
             files.forEach(function (file) {
-                if (!fs.statSync(new url.URL("file:///" + path + '/' + file)).isDirectory()) {
+                if (!fs.statSync(path + '/' + file).isDirectory()) {
                     if (comicTypes.includes(file.split('.').last())) {
                         var comic = {
                             filename: file.replace("." + file.split('.').last(), ""),
                             directory: path + '/',
                             type: file.split('.').last(),
-                            read: true,
+                            read: false,
                             rtol: false,
                             series: "",
                             number: -1,
                             title: "",
                             author: ""
                         };
-                        //var file = new url.URL("file:///" + comic.directory + comic.filename + "." + comic.type);
-                        pipeline.addToQueue((comic) => {
+                        pipeline.addToQueue({
+                            f:(comic) => {
                             ArchiveManager.Read('info.json', comic.directory + comic.filename + "." + comic.type, function (err, data) {
                                 var info = (data) ? JSON.parse(data) : {};
                                 Object.assign(comic, info);
@@ -135,7 +138,11 @@ var loadDir = function () {
                                 pipeline.remove();
                                 getThumb(comic);
                             })
-                        }, comic, "Read info.json");
+                        },
+                        args:comic,
+                        label:"Add Book",
+                        priority:1
+                        });
                     }
                 }
             });
@@ -161,7 +168,8 @@ var createBook = function (comic, i) {
 var getThumb = function (comic) {
     var file = comic.directory + comic.filename + "." + comic.type;
     var i = 0;
-    pipeline.addToQueue((args) => {
+    pipeline.addToQueue({
+        f:(args) => {
         console.log("Looking for Thumbs in " + args.comic.title);
         ArchiveManager.Content(args.file, function (err, contents) {
             if (err) {
@@ -173,7 +181,8 @@ var getThumb = function (comic) {
                 i = i + 1;
                 entry = contents[i];
             }
-            pipeline.addToQueue((args) => {
+            pipeline.addToQueue({
+                f:(args) => {
                 console.log("Loading Thumb for " + args.comic.title);
                 ArchiveManager.Read(args.entry.name, file, function (err, data) {
                     if (err) {
@@ -182,28 +191,42 @@ var getThumb = function (comic) {
                     }
                     args.comic.loading = false;
                     args.comic.thumb = "data:image/jpg;base64," + data.toString('base64');
-                    //$(`#${args.comic.id}>figure>svg`).removeClass('is-loading');
-                    //$(`#${args.comic.id}>figure>img`).attr('src', "data:image/jpg;base64," + data.toString('base64'));
                     console.log(`Adding Thumb to ${args.comic.id}`);
                     pipeline.remove();
                 });
-            }, {
+            },
+            args:{
                 comic: comic,
                 file: file,
                 entry: entry
-            }, 'Read');
+            },
+            label: 'Read',
+            priority:0
+            });
             pipeline.remove();
         });
-    }, {
+    },
+    args:{
         comic: comic,
         file: file
-    }, "Content");
+    },
+    label:"Content",
+    priority:0
+    });
 }
 
 var saveBook = function (book) {
     console.log("Saving " + book.title);
-    pipeline.addToQueue((book) => {
-        ArchiveManager.Append(['info.json'], [Buffer.from(JSON.stringify(book))], book.directory + book.filename + '.' + book.type, function (err, files) {
+    pipeline.addToQueue({
+        f:(book) => {
+        ArchiveManager.Append(['info.json'], [Buffer.from(JSON.stringify({
+            title:book.title,
+            series:book.series,
+            author:book.author,
+            rtol:book.rtol,
+            number:book.number,
+            read:book.read
+        }))], book.directory + book.filename + '.' + book.type, function (err, files) {
             if (err) {
                 console.error(err);
                 return;
@@ -211,7 +234,10 @@ var saveBook = function (book) {
             console.log("Sucess!");
             pipeline.remove();
         });
-    }, book, "Append");
+    },
+    args:book, 
+    label:"Append"
+    });
 }
 
 var sortList = function () {

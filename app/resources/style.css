@@ -2,11 +2,11 @@
 
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.4s ease-out;
-  }
+}
   
-  .fade-enter, .fade-leave-to {
+.fade-enter, .fade-leave-to {
     opacity: 0;
-  }
+}
 
 #reader {
     margin: 1%;
@@ -96,6 +96,7 @@
     margin: 1%;
     display: inline-block;
     vertical-align: top;
+    white-space: normal;
 }
 
 .book:hover {
@@ -262,4 +263,10 @@ body {
     flex-direction: column;
 }
 
+/* #endregion */
+
+/* #region Overrides*/
+.badge[data-badge]::after{
+    box-shadow: 0 0 0 0;
+}
 /* #endregion */

@@ -22,53 +22,63 @@ var totalPages = 0;
 class WorkerQueue {
     constructor() {
         this.queue = [];
-        this.values = [];
-        this.labels = [];
         this.processing = false;
         this.current = "";
     }
 
-    addToQueue(f,data,label) {
-        this.queue.push(f);
-        this.values.push(data);
-        this.labels.push(label);
-        if(this.processing===false){
+    addToQueue(newItem) {
+        var sortQueue = function(a,b){
+            var A=a.priority;
+            var B=b.priority;
+            if (A < B) {
+                return -1;
+            } else if (B < A) {
+                return 1;
+            }
+            return 0;
+        }
+        if(newItem.priority===undefined){
+            newItem.priority=1;
+        }
+        this.queue.push(newItem);
+        this.queue.sort(sortQueue);
+        if (this.processing === false) {
             this.start();
         }
     };
 
     next() {
-        if(this.processing===false){
-            var f = this.queue.shift();
-            var args = this.values.shift();
-            this.current = this.labels.shift();
-            if (typeof f === 'function') {
-                this.processing=true;
-                f(args);
+        if (this.processing === false) {
+            var newItem = this.queue.shift();
+            if (newItem !== undefined) {
+                if (typeof newItem.f === 'function') {
+                    this.processing = true;
+                    newItem.f(newItem.args);
+                    this.current = newItem.label;
+                }
             }
         }
     };
 
     remove() {
-        this.processing=false;
+        this.processing = false;
         this.next();
     };
 
-    clear(label){
-        if(label===undefined){
+    clear(label) {
+        if (label === undefined) {
             this.queue = [];
-            this.values = [];
-            this.labels = [];
             this.processing = false;
             this.current = "";
-        }
-        else{
-            var i = this.labels.indexOf(label);
-            while(i!==-1){
-                this.queue.splice(i,1);
-                this.values.splice(i,1);
-                this.labels.splice(i,1);
-                i = this.labels.indexOf(label);
+        } else {
+            var labels = [];
+            this.queue.forEach(function (item) {
+                label.push(item.label);
+            })
+            var i = labels.indexOf(label);
+            while (i !== -1) {
+                this.queue.splice(i, 1);
+                i = labels.indexOf(label);
             }
         }
     }
@@ -129,30 +139,30 @@ var loadBook = function (book) {
                     if (fileTypes.includes(entry.name.split('.').last())) {
                         ++i;
                         pipeline.addToQueue((args) => {
-                                ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
-                                    if (err) {
-                                        console.error(err);
-                                        return;
-                                    }
-                                    currentBook.pages[args.j] = "data:image/jpg;base64," + data.toString('base64');
-                                    if (args.j === 0) {
-                                        $('#pages>figure>img').attr('src', currentBook.pages[0]);
-                                    }
-                                    ++currentBook.totalPages;
-                                    $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
-                                    pipeline.remove();
-                                });
-                        },{
-                            file:file,
-                            j:i,
-                            entry:entry
-                        },"Read Page");
+                            ArchiveManager.Read(args.entry.name, args.file, function (err, data) {
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+                                currentBook.pages[args.j] = "data:image/jpg;base64," + data.toString('base64');
+                                if (args.j === 0) {
+                                    $('#pages>figure>img').attr('src', currentBook.pages[0]);
+                                }
+                                ++currentBook.totalPages;
+                                $('#pageCount').text((currentBook.currentPage + 1) + '/' + currentBook.totalPages);
+                                pipeline.remove();
+                            });
+                        }, {
+                            file: file,
+                            j: i,
+                            entry: entry
+                        }, "Read Page");
                     }
                 }
             });
             pipeline.remove();
         });
-    },file,'Content Pages');
+    }, file, 'Content Pages');
 };
 
 var animating = false;
