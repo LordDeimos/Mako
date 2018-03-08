@@ -13,7 +13,7 @@ Vue.component('about-modal',{
                 <p class="about-text">
                     Its mostly for learing electron, but maybe will become a viable comic reader for release to the public
                 </p>
-                <div class="content has-text-centered has-text-grey-light about-foot">
+                <div class="content has-text-centered has-text-grey-light">
                     <div class="links">
                         <a onclick="openWebsite('https://github.com/LordDeimos/Mako')" class="weblink link tooltip" data-tooltip="Github Repo">
                             <i class="fab fa-github link" id='gitfore'></i>

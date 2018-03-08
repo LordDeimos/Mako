@@ -1,5 +1,5 @@
-Vue.component('explorer',{
-    template:`
+Vue.component('explorer', {
+    template: `
             <div id='explorer' class="box">
                 <div id='books'>
                     <div class="book box" data-badge="" v-bind:class="{ badge:!comic.read, 'is-badge-warning':!comic.read }" v-for="comic in books"
@@ -10,9 +10,18 @@ Vue.component('explorer',{
                             </span>
                             <img class="thumb" v-bind:src="comic.thumb">
                         </figure>
-                        {{ comic.title }}
+                        {{ comic.displayName }}
                     </div>
                 </div>
             </div>`,
-    props:['books']
+    props: ['books'],
+    methods: {
+        editBook: function (book) {
+            reader.editting = true;
+            reader.bookEdit = book;
+        },
+        openBook: function (book) {
+            loadBook(book);
+        }
+    }
 });

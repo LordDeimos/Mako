@@ -7,14 +7,5 @@ var reader = new Vue({
                 bookEdit: {},
                 showAbout: false,
                 showCloseWarning: false
-        },
-        methods: {
-                openBook: function (book) {
-                        loadBook(book);
-                },
-                editBook: function (book) {
-                        this.editting = true;
-                        this.bookEdit = book;
-                }
         }
 });

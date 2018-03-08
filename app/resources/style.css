@@ -1,7 +1,7 @@
 /* #region Reader*/
 
 .fade-enter-active, .fade-leave-active {
-    transition: opacity 0.4s ease-out;
+    transition: opacity 0.1s ease-out;
 }
   
 .fade-enter, .fade-leave-to {
@@ -133,10 +133,6 @@
 
 .about-text {
     padding: 5% 0%;
-}
-
-.about-foot {
-    background: whitesmoke;
 }
 
 .links {

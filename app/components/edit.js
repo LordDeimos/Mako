@@ -84,6 +84,16 @@ Vue.component('edit-modal',{
                     rtol: newDirection,
                     read: newRead
             });
+            if (this.book.title === "") {
+                if (this.book.series === "" || this.book.number === -1) {
+                    this.book.displayName = this.book.filename;
+                } else {
+                    this.book.displayName = this.book.series + " #" + this.book.number;
+                }
+            }
+            else{
+                this.book.displayName = this.book.title;
+            }
             saveBook(this.book);
             reader.bookEdit = {};
             reader.editting = false;

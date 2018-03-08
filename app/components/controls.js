@@ -7,7 +7,7 @@ Vue.component('control-box',{
                     <div class="control has-icons-left">
                         <div class="select">
                             <select id="sort-option" onchange="sortList()">
-                                <option selected>Sort By..</option>
+                                <option disabled selected hidden>Sort By..</option>
                                 <option>Title</option>
                                 <option>Author</option>
                                 <option>Series</option>

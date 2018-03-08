@@ -41,7 +41,7 @@ class WorkerQueue {
             newItem.priority = 1;
         }
         this.queue.push(newItem);
-        this.queue.sort(sortQueue);
+        //this.queue.sort(sortQueue);
         if (this.processing === false) {
             this.start();
         }
